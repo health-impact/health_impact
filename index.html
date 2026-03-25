@@ -22,11 +22,12 @@
         .brand-section { display: flex; align-items: center; gap: 12px; }
         .brand-text { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; }
 
-/* 2. قسم الرئيسية (Hero) - صورة الوعي الصحي المضمونة والخطوط المتناسقة */
+/* 2. قسم الرئيسية (Hero) - صورة الصحة العامة الراقية وتأثير الحركة (Parallax)  */
         .hero { 
-            height: 85vh; /* تقليل الارتفاع قليلاً لضمان ظهور الصورة بالكامل */
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
-                        url('https://cdn.pixabay.com/photo/2020/03/31/19/20/dog-4988985_1280.jpg'); /* صورة طبية عالمية للوعي الصحي */
+            height: 95vh;
+            /* صورة عالمية ترمز للصحة العامة (عالم مخبري وتحليل بيانات عالمية) */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://cdn.pixabay.com/photo/2020/03/19/21/25/microscope-4948834_1280.jpg'); 
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -35,24 +36,29 @@
             align-items: center; 
             justify-content: center; 
             text-align: center;
-            padding: 20px;
+            /* تفعيل تأثير Parallax (الصورة تتحرك ببطء خلف النص) */
+            background-attachment: fixed;
         }
 
-        /* تكبير الخطوط بشكل ذكي يتماشى مع الهاتف */
+        /* الحفاظ على الخطوط الكبيرة جداً درجتين إضافيتين */
         .hero h1 { 
-            font-size: clamp(2.5rem, 8vw, 5rem); /* يتغير حجمه تلقائياً حسب الشاشة */
+            font-size: 6.5rem; /* خط عملاق للعنوان، يملأ الشاشة */
             font-weight: 900; 
-            margin-bottom: 20px; 
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+            margin-bottom: 35px; 
+            text-shadow: 4px 4px 20px rgba(0,0,0,0.7);
+            letter-spacing: -2px;
+            line-height: 1.1; /* تقليل المسافة العمودية لتعطي هيبة للعنوان */
         }
 
         .hero p { 
-            font-size: clamp(1.2rem, 4vw, 2.2rem); /* خط واضح جداً للمواطن */
-            max-width: 900px; 
+            font-size: 2.8rem; /* خط كبير جداً للوصف، واضح للمواطن */
+            max-width: 1100px; 
             margin: 0 auto; 
-            line-height: 1.4; 
+            line-height: 1.5; 
             color: #ffffff;
-            font-weight: 600;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
         }
         }
         /* 4. مسافات بين الأقسام */
