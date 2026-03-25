@@ -10,48 +10,83 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #2c2c2c; /* رمادي غامق */
-      color: #fff;
+      background-color: #f9f9f9;
+      color: #333;
       font-family: 'Tajawal', sans-serif;
     }
     .navbar {
-      background-color: #1f1f1f;
+      background-color: #2c2c2c;
     }
     .navbar-brand {
       font-weight: bold;
-      color: #4CAF50; /* أخضر صحي */
+      color: #4CAF50;
+    }
+    .navbar-nav .nav-link {
+      color: #fff;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+    .navbar-nav .nav-link:hover {
+      color: #4CAF50;
     }
     .hero {
       background: url('https://images.unsplash.com/photo-1581090700227-4c4f50b4c5d8') center/cover no-repeat;
-      height: 100vh;
+      height: 90vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      color: #fff;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
     .hero h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: bold;
       color: #4CAF50;
     }
     .hero p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin-top: 15px;
+      max-width: 700px;
     }
     .section {
-      padding: 60px 20px;
+      padding: 80px 20px;
+    }
+    .section h2 {
+      color: #2c2c2c;
+      margin-bottom: 40px;
+      font-weight: bold;
     }
     .card {
-      background-color: #333;
-      border: none;
-      color: #fff;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      transition: transform 0.5s, box-shadow 0.5s;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card i {
+      color: #4CAF50;
+      margin-bottom: 15px;
+    }
+    .archive-btn {
+      margin-top: 20px;
     }
     footer {
-      background-color: #1f1f1f;
-      padding: 20px;
+      background-color: #2c2c2c;
+      padding: 30px;
       text-align: center;
-      font-size: 0.9rem;
+      color: #fff;
+      font-size: 0.95rem;
     }
   </style>
 </head>
@@ -63,66 +98,103 @@
       <a class="navbar-brand" href="#">
         <i class="fa-solid fa-heart-pulse"></i> IMPACT HEALTH
       </a>
-      <div class="collapse navbar-collapse">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">الرئيسية</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">عن المنصة</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">التوعية الذكية</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">المتجر</a></li>
+          <li class="nav-item"><a class="nav-link" href="#home">الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">عن المنصة</a></li>
+          <li class="nav-item"><a class="nav-link" href="#awareness">التوعية الذكية</a></li>
+          <li class="nav-item"><a class="nav-link" href="#store">المتجر</a></li>
+          <li class="nav-item"><a class="nav-link" href="#archive">الأرشيف</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section id="home" class="hero">
     <h1>أثر صحي | Impact Health</h1>
     <p>نحو مجتمع ليبي واعٍ بعيدًا عن الشائعات وبناءً على الحقائق العلمية</p>
   </section>
 
   <!-- About Section -->
-  <section class="section text-center">
-    <h2>من نحن</h2>
-    <p>منصة متخصصة يشرف عليها أخصائي صحة عامة وطالب ماجستير، تهدف لتقديم محتوى موثوق يعتمد على تحديات WHO وNCDC وFAD لضمان دقة المعلومة وترك أثر إيجابي دائم في المجتمع الليبي.</p>
-    <i class="fa-solid fa-shield-heart fa-3x text-success"></i>
+  <section id="about" class="section text-center">
+    <div class="container">
+      <h2>من نحن</h2>
+      <p>منصة متخصصة يشرف عليها أخصائي صحة عامة وطالب ماجستير، تهدف لتقديم محتوى موثوق يعتمد على تحديات WHO وNCDC وFAD لضمان دقة المعلومة وترك أثر إيجابي دائم في المجتمع الليبي.</p>
+      <i class="fa-solid fa-shield-heart fa-3x"></i>
+    </div>
   </section>
 
   <!-- Awareness Section -->
-  <section class="section">
-    <h2 class="text-center">التوعية الذكية</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card p-3">
-          <i class="fa-solid fa-notes-medical fa-2x text-success mb-2"></i>
-          <h5>معلومة 1</h5>
-          <p>نص مختصر عن المعلومة.</p>
+  <section id="awareness" class="section">
+    <div class="container">
+      <h2 class="text-center">التوعية الذكية</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-notes-medical fa-2x"></i>
+            <h5 class="mt-2">معلومة 1</h5>
+            <p>نص مختصر عن المعلومة.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-stethoscope fa-2x"></i>
+            <h5 class="mt-2">معلومة 2</h5>
+            <p>نص مختصر عن المعلومة.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 text-center">
+            <i class="fa-solid fa-syringe fa-2x"></i>
+            <h5 class="mt-2">معلومة 3</h5>
+            <p>نص مختصر عن المعلومة.</p>
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card p-3">
-          <i class="fa-solid fa-stethoscope fa-2x text-success mb-2"></i>
-          <h5>معلومة 2</h5>
-          <p>نص مختصر عن المعلومة.</p>
-        </div>
+      <div class="text-center archive-btn">
+        <a href="#archive" class="btn btn-success btn-lg">
+          <i class="fa-solid fa-box-archive"></i> نقل إلى الأرشيف
+        </a>
       </div>
-      <div class="col-md-4">
-        <div class="card p-3">
-          <i class="fa-solid fa-syringe fa-2x text-success mb-2"></i>
-          <h5>معلومة 3</h5>
-          <p>نص مختصر عن المعلومة.</p>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <a href="#" class="btn btn-success">تصفح الأرشيف</a>
     </div>
   </section>
 
   <!-- Store Section -->
-  <section class="section text-center">
-    <h2>المتجر</h2>
-    <p>قريبًا...</p>
-    <i class="fa-solid fa-cart-shopping fa-3x text-success"></i>
+  <section id="store" class="section">
+    <div class="container text-center">
+      <h2>المتجر</h2>
+      <div class="card p-5 mx-auto" style="max-width:400px;">
+        <i class="fa-solid fa-cart-shopping fa-3x"></i>
+        <h5 class="mt-3">قريبًا</h5>
+        <p>المتجر سيُفتتح قريبًا لتقديم منتجات وخدمات تدعم الصحة العامة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Archive Section -->
+  <section id="archive" class="section">
+    <div class="container">
+      <h2 class="text-center">الأرشيف</h2>
+      <p class="text-center">هنا تُخزن المعلومات القديمة لتكون مرجع دائم.</p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card p-4">
+            <h5>معلومة قديمة 1</h5>
+            <p>النص الكامل للمعلومة المخزنة.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-4">
+            <h5>معلومة قديمة 2</h5>
+            <p>النص الكامل للمعلومة المخزنة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Footer -->
@@ -131,5 +203,12 @@
     <p>الموقع يعمل بالذكاء الاصطناعي وتحت إشراف أخصائي ومهتم بالصحة العامة</p>
   </footer>
 
-</body>
-</html>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Animation on scroll
+    const cards = document.querySelectorAll('.card');
+    window.addEventListener('scroll', () => {
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top
