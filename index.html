@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أثر صحي | Impact Health</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <style>
+        :root { --dark-header: #1e2022; --main-green: #1a594e; --secondary-green: #198754; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fcfb; color: #333; }
+        .dark-header { background-color: var(--dark-header); color: white; padding: 25px 0; }
+        .hero-section { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600') no-repeat center center/cover; color: white; padding: 80px 0; text-align: center; border-bottom: 5px solid var(--secondary-green); }
+        .updates-container { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: -50px; }
+        .tip-card { border-right: 5px solid var(--secondary-green); background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .footer { background: var(--dark-header); color: white; padding: 40px 0; margin-top: 60px; }
+        .ai-status-box { border: 2px solid var(--secondary-green); color: var(--secondary-green); border-radius: 12px; padding: 15px; max-width: 400px; margin: 20px auto; }
+    </style>
+</head>
+<body>
+
+    <header class="dark-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="site-brand">
+                <span class="h3 fw-bold mb-0">Impact Health</span>
+                <i class="fas fa-heartbeat text-success ms-2"></i>
+            </div>
+            <nav>
+                <a href="#about" class="text-white-50 text-decoration-none ms-3">من نحن</a>
+                <a href="#updates" class="text-white-50 text-decoration-none">التوعية الذكية</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-5 fw-bold">منصة أثر صحي التوعوية</h1>
+            <p class="lead text-white-50">نحو وعي صحي مبني على الحقائق العلمية والمصادر المعتمدة</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="updates" class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="updates-container shadow-lg">
+                    <h3 class="fw-bold text-center mb-4"><i class="fas fa-robot text-success me-2"></i> آخر 5 نصائح وتوصيات (تحديث تلقائي)</h3>
+                    <div id="tips-container">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-success" role="status"></div>
+                            <p class="mt-3 text-muted">جاري مزامنة أحدث البيانات من NCDC و WHO و FDA...</p>
+                        </div>
+                        </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-success rounded-pill px-4"><i class="fas fa-history me-2"></i> تصفح أرشيف النصائح السابقة</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-5 mt-5">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h2 class="fw-bold text-success">عن منصة أثر صحي</h2>
+                    <p class="lead">أثر صحي هي منصة توعوية متخصصة، يشرف عليها أخصائي في الصحة العامة (بكالوريوس وطالب ماجستير).</p>
+                    <p>يعتمد البوت الخاص بنا في تحديثاته كل 12 ساعة حصرياً على:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle text-success me-2"></i> المركز الوطني لمكافحة الأمراض (NCDC)</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> منظمة الصحة العالمية (WHO)</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> منظمة الغذاء والدواء (FDA)</li>
+                    </ul>
+                </div>
+                <div class="col-md-5 text-center">
+                    <i class="fas fa-microscope fa-10x text-light"></i>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <p>أثر صحي &copy; 2026 - جميع الحقوق محفوظة</p>
+            <div class="ai-status-box">
+                <i class="fas fa-robot fa-2x mb-2"></i><br>
+                <span>يعمل بالذكاء الاصطناعي تحت إشراف أخصائي ومهتم بالصحة العامة</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
