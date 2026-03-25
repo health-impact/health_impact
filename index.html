@@ -3,50 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أثر صحي | Impact Health</title>
+    <title>Impact Health | المتجر العام</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
     
     <style>
-        /* 1. الألوان والخطوط (الأخضر الفاتح المريح زي صورك) */
-        :root { --main-green: #198754; --dark-header: #1e2022; --light-bg: #f8fcfc; }
+        :root { --dark-header: #1e2022; --text-color: #333; --main-green: #1a594e; --secondary-green: #198754; --light-bg: #fff; --disabled-red: #f8d7da; --disabled-red-text: #842029; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: var(--text-color); margin: 0; padding: 0; }
         
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: #333; margin: 0; padding: 0; }
-        
-        /* 2. الهيدر الغامق */
+        /* 1. الهيدر الغامق */
         .dark-header { background-color: var(--dark-header); color: white; padding: 20px 0; border-bottom: 2px solid #333; }
         .nav-links-box { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; text-align: right; border-right: 2px solid #444; padding-right: 15px; }
         .nav-link-item { color: #bbb; text-decoration: none; font-weight: 500; font-size: 1rem; }
         .nav-link-item:hover { color: white; }
         .site-brand { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-left: auto; }
         .site-title { font-size: 1.5rem; font-weight: bold; text-transform: uppercase; }
-
-        /* 3. قسم الواجهة مع خلفية طبية */
-        .hero-section { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600') no-repeat center center/cover; color: white; padding: 60px 0; text-align: center; }
+        
+        /* 2. قسم الواجهة مع الخلفية التكنولوجية */
+        .hero-section { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1579684388669-c084f67c3b2e?q=80&w=1600') no-repeat center center/cover; color: white; padding: 60px 0; text-align: center; }
         .hero-title { font-size: 2rem; font-weight: bold; }
         .hero-desc { font-size: 1.1rem; color: #ddd; margin-top: 10px; }
         
-        /* 4. من نحن */
+        /* 3. قسم من نحن */
         .about-section { text-align: center; color: var(--main-green); }
         .about-title { font-size: 2rem; font-weight: bold; }
-        .about-desc { font-size: 1.1rem; color: #333; line-height: 1.8; margin-top: 20px; }
+        .about-desc { font-size: 1.1rem; color: var(--text-color); line-height: 1.8; margin-top: 20px; }
         
-        /* 5. التوعية الذكية */
-        .updates-title { font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--dark-header); }
-        .btn-archive { border-color: var(--main-green); color: var(--main-green); font-weight: 500; border-radius: 20px; padding: 8px 25px; display: flex; align-items: center; gap: 8px; margin: 30px auto; }
-        .btn-archive:hover { background-color: var(--main-green); color: white; }
+        /* 4. قسم التوعية الذكية المجهز للبوت */
+        .updates-section { text-align: center; margin-top: 40px; }
+        .updates-title { font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-color); }
+        .tips-spinner { width: 3rem; height: 3rem; color: #0d6efd; }
+        .updates-status { color: #6c757d; font-size: 1.1rem; margin-top: 15px; }
+        .btn-archive { border-color: var(--secondary-green); color: var(--secondary-green); font-weight: 500; border-radius: 20px; padding: 8px 25px; display: flex; align-items: center; gap: 8px; margin: 30px auto; }
+        .btn-archive:hover { background-color: var(--secondary-green); color: white; }
         
-        /* 6. كاردات المتجر (نفس أيقونات صورك) */
-        .store-title { font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--dark-header); }
+        /* 5. كاردات المتجر المجهزة بالأيقونات */
+        .store-section { text-align: center; margin-top: 50px; }
+        .store-title { font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-color); }
+        .store-desc { font-size: 1.1rem; color: var(--text-color); margin-top: 10px; }
         .product-card { border: none; border-radius: 10px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; padding: 20px; height: 100%; }
         .product-card:hover { transform: translateY(-5px); }
-        .product-title { font-size: 1.4rem; font-weight: bold; margin-top: 15px; color: #333; }
+        .product-title { font-size: 1.4rem; font-weight: bold; margin-top: 15px; color: var(--text-color); }
         .product-desc { font-size: 0.95rem; color: #6c757d; margin-top: 5px; line-height: 1.5; }
-        .badge-coming-soon { background-color: #f8d7da; color: #842029; border: 1px solid #f8d7da; padding: 5px 15px; border-radius: 20px; font-weight: 500; display: inline-block; margin-top: 15px; }
+        .badge-coming-soon { background-color: #e8f0fe; color: #0d6efd; border: 1px solid #0d6efd; padding: 5px 15px; border-radius: 20px; font-weight: 500; display: inline-block; margin-top: 15px; }
+        .badge-coming-soon-red { background-color: var(--disabled-red); color: var(--disabled-red-text); border: 1px solid var(--disabled-red); padding: 5px 15px; border-radius: 20px; font-weight: 500; display: inline-block; margin-top: 15px; }
         
-        /* 7. الفوتر */
-        .ai-status-box { border: 2px solid var(--main-green); color: var(--main-green); border-radius: 10px; padding: 15px; max-width: 350px; margin: 30px auto; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* 6. الفوتر الغامق */
+        .footer-section { background-color: var(--dark-header); color: white; padding: 40px 0; text-align: center; border-top: 2px solid #333; font-size: 1rem; }
+        .footer-copyright { color: #bbb; }
+        .ai-status-box { background-color: #212529; border: 2px solid var(--secondary-green); color: var(--secondary-green); border-radius: 10px; padding: 15px 25px; max-width: 350px; margin: 30px auto; }
     </style>
 </head>
 <body>
@@ -96,9 +102,9 @@
             </h2>
             
             <div id="tips-container">
-                <div class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status"></div>
-                    <p class="mt-2 text-muted">جاري جلب التحديثات...</p>
+                <div class="text-center py-4 updates-loading-box">
+                    <div class="spinner-border tips-spinner" role="status"></div>
+                    <p class="updates-status">جاري جلب التحديثات...</p>
                 </div>
                 </div>
             
@@ -125,7 +131,7 @@
                 <div class="col-md-4">
                     <div class="card product-card">
                         <i class="fas fa-user-shield fa-5x text-primary"></i>
-                        <h4 class="product-title">أدوات الوقاية</h4>
+                        <h4 class="product-title">أدوات الوقاية الشخصية</h4>
                         <p class="product-desc">أقنعة، قفازات، ومعقمات مطابقة للمواصفات الصحية العالمية.</p>
                         <span class="badge-coming-soon">قريباً</span>
                     </div>
@@ -135,7 +141,7 @@
                         <i class="fas fa-heartbeat fa-5x text-danger"></i>
                         <h4 class="product-title">أجهزة القياس الحيوية</h4>
                         <p class="product-desc">أجهزة قياس الضغط، السكر، والأكسجين للاستخدام المنزلي والمهني.</p>
-                        <span class="badge-coming-soon">قريباً</span>
+                        <span class="badge-coming-soon-red">قريباً</span>
                     </div>
                 </div>
             </div>
@@ -143,13 +149,13 @@
 
     </main>
 
-    <footer class="bg-dark text-white text-center py-5">
+    <footer class="footer-section">
         <div class="container">
-            <p>أثر صحي &copy; 2026 جميع الحقوق محفوظة</p>
-            <p class="small text-muted">صمم بكل فخر لدعم الصحة العامة في ليبيا</p>
+            <p class="footer-copyright mb-1">Impact Health &copy; 2026 جميع الحقوق محفوظة</p>
+            <p class="small">صمم بكل فخر لدعم الصحة العامة في ليبيا</p>
             
-            <div class="ai-status-box mx-auto">
-                <i class="fas fa-robot fa-2x"></i>
+            <div class="ai-status-box mx-auto d-flex align-items-center justify-content-center">
+                <i class="fas fa-robot fa-2x ms-2"></i>
                 <span>يعمل بالذكاء الاصطناعي تحت إشراف أخصائي ومهتم بالصحة العامة</span>
             </div>
         </div>
