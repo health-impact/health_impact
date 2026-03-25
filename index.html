@@ -110,15 +110,32 @@
 
 
     
-   /* 4. قسم من نحن - تعديل لإظهار الكتيبة */
-        #about {
-            padding-top: 180px; /* زدنا المسافة لـ 180 عشان الكتيبة تنزل وتبان */
-            padding-bottom: 100px;
-            background-color: white; 
-            position: relative; 
-            z-index: 10; /* يضمن إن القسم يكون فوق الصورة وما يتغطاش بيها */
-            margin-top: -20px; 
-        }
+  <section id="about" style="padding-top: 160px; padding-bottom: 100px; background-color: #ffffff; position: relative; z-index: 10;">
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px; text-align: center;">
+        
+        <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); color: #1b4332; margin-bottom: 35px; font-weight: 800; position: relative; display: inline-block;">
+            من نحن؟
+            <span style="display: block; width: 60px; height: 5px; background: #27ae60; margin: 10px auto; border-radius: 10px;"></span>
+        </h2>
+        
+        <div class="about-card" style="background: #fdfdfd; padding: 45px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); border-top: 5px solid #27ae60; transition: transform 0.3s ease;">
+            <p style="font-size: clamp(1.2rem, 3vw, 2rem); line-height: 1.8; color: #34495e; text-align: justify; direction: rtl;">
+                منصة متخصصة يشرف عليها 
+                <span style="color: #27ae60; font-weight: 800; background: rgba(39, 174, 96, 0.1); padding: 2px 8px; border-radius: 5px;">أخصائي صحة عامة وطالب ماجستير</span>، 
+                تهدف لتقديم محتوى موثوق يعتمد بشكل أساسي على تحديثات 
+                <span style="color: #2980b9; font-weight: 700;">WHO</span> و 
+                <span style="color: #c0392b; font-weight: 700;">NCDC</span> و 
+                <span style="color: #f39c12; font-weight: 700;">FDA</span> 
+                لضمان دقة المعلومة وترك أثر إيجابي يدوم في المجتمع الليبي من مصادر موثوقة.
+            </p>
+        </div>
+
+        <div style="margin-top: 40px; color: #7f8c8d; font-style: italic; font-size: 1.1rem;">
+            🔬 "نحو مجتمع واعي يعتمد على الدليل العلمي"
+        </div>
+
+    </div>
+</section>
 
     <section id="updates" style="background-color: #f4f7f6;">
         <div class="container">
