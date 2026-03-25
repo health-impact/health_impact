@@ -22,20 +22,17 @@
         .brand-section { display: flex; align-items: center; gap: 12px; }
         .brand-text { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; }
 
-        /* 2. قسم الرئيسية (Hero) - تعديل الخلفية إلى صور مركبة */
+        /* 3. قسم الرئيسية (Hero) - تكبير وتجميل */
         .hero { 
             height: 90vh;
-            /* استبدال الصورة السادة بصور مركبة (تكنولوجية وطبية) */
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600'), /* صورة دارة إلكترونية */
-                        url('https://images.unsplash.com/photo-1579684388669-c084f67c3b2e?q=80&w=1600'); /* صورة ميكروسكوب */
-            background-blend-mode: overlay, lighten; /* دمج الصور معاً لتعطي مظهر جذاب */
-            background-repeat: no-repeat, no-repeat;
-            background-position: center, left;
-            background-size: cover, auto 100%; /* توزيع الصور في الخلفية */
+                        url('https://images.unsplash.com/photo-1532187875605-1ef147c6d143?q=80&w=1600') no-repeat center center/cover;
             color: white; display: flex; align-items: center; justify-content: center; text-align: center;
             background-attachment: fixed;
         }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 25px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.6rem; max-width: 900px; margin: 0 auto; line-height: 1.6; color: #eee; }
+
         /* 4. مسافات بين الأقسام */
         section { padding: 100px 0; }
 
@@ -80,86 +77,48 @@
         </div>
     </section>
 
-    /* 4. تطوير قسم من نحن */
-        #about {
-            padding: 120px 0; /* زيادة المسافة للعزل البصري */
-            background-color: #fff;
-        }
-        #about h2 {
-            font-size: 3rem; /* تكبير العنوان الرئيسي */
-            font-weight: 800;
-            margin-bottom: 40px;
-            color: var(--main-green);
-            position: relative;
-            display: inline-block;
-        }
-        #about h2::after {
-            content: "";
-            display: block;
-            width: 60%;
-            height: 4px;
-            background: var(--main-green);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-        .about-desc {
-            font-size: 1.8rem; /* تكبير خط الشرح بشكل بارز */
-            line-height: 1.8;   /* زيادة المسافة بين السطور لراحة العين */
-            color: #444;
-            max-width: 1100px;
-            margin: 0 auto;
-            font-weight: 500;   /* جعل الخط متوسط الثقل لزيادة الوضوح */
-        }
-        /* إضافة لمسة احترافية للمصادر */
-        .source-highlight {
-            color: var(--main-green);
-            font-weight: 800;
-            border-bottom: 2px dashed var(--main-green);
-        }
+    <section id="about">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-5" style="color: var(--main-green);">من نحن؟</h2>
+            <p class="lead mx-auto" style="max-width: 1000px; font-size: 1.5rem; line-height: 2;">
+                منصة متخصصة يشرف عليها **أخصائي صحة عامة وطالب ماجستير**، تهدف لتقديم محتوى موثوق يعتمد بشكل أساسي على تحديثات **WHO** و **NCDC** و **FDA** لضمان دقة المعلومة وترك أثر إيجابي يدوم في المجتمع الليبي.
+            </p>
+        </div>
+    </section>
 
- /* 5. تطوير كاردات التوعية للمواطن */
-        .updates-container { 
-            background: #ffffff; 
-            border-radius: 40px; 
-            padding: 60px; 
-            box-shadow: 0 25px 70px rgba(0,0,0,0.07); 
-        }
-        .tip-card { 
-            background: #fff; 
-            border-right: 10px solid var(--main-green); /* خط سميك وواضح */
-            border-radius: 20px; 
-            padding: 40px; 
-            margin-bottom: 30px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02); 
-            transition: 0.4s; 
-            text-align: right;
-        }
-        .tip-card:hover { 
-            transform: scale(1.02) translateX(-15px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-        }
-        .tip-card h5 { 
-            font-size: 1.8rem; /* خط كبير جداً للمواطن */
-            font-weight: 700; 
-            color: #222; 
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .source-tag-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .source-label { 
-            background: #f0fdf4; 
-            color: var(--main-green); 
-            padding: 8px 20px; 
-            border-radius: 30px; 
-            font-size: 1rem; 
-            font-weight: 800; 
-            border: 1px solid #dcfce7;
-        }
+    <section id="updates" style="background-color: #f4f7f6;">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 display-6">التوعية الصحية الذكية</h2>
+            <div class="updates-container">
+                <div id="tips-container">
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">غسل اليدين بالماء والصابون يقلل من انتقال الأمراض المعدية.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">تجنب استخدام المضادات الحيوية بدون استشارة طبية دقيقة.</h5>
+                        <span class="source-label">المصدر: NCDC</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الحفاظ على رطوبة الجسم يعزز من كفاءة الجهاز المناعي.</h5>
+                        <span class="source-label">المصدر: FDA</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">التهوية الجيدة للمختبرات تقلل من الحمل الميكروبي في الهواء.</h5>
+                        <span class="source-label">المصدر: أبحاث ميدانية</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الفحص الدوري لمعدل السكر والضغط يقي من المضاعفات المفاجئة.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    </div>
+                <div class="text-center mt-5">
+                    <button class="btn btn-outline-success rounded-pill px-5 py-3 fw-bold">تصفح أرشيف المعلومات الكامل</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="store">
         <div class="container">
             <h2 class="text-center fw-bold mb-5 display-6 text-success">متجر المستلزمات الصحية</h2>
