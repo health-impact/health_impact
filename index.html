@@ -22,19 +22,18 @@
         .brand-section { display: flex; align-items: center; gap: 12px; }
         .brand-text { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; }
 
-      /* 2. قسم الرئيسية (Hero) - تعديل الخلفية إلى صور مركبة (صحة عامة) */
+     /* 2. قسم الرئيسية (Hero) - صورة واحدة احترافية للصحة العامة وتكنولوجيا المختبرات */
         .hero { 
             height: 90vh;
-            /* استبدال الصور التكنولوجية بصور بحث مخبري وعمل ميداني للصحة العامة */
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1576089172869-4f5f6f315620?q=80&w=1600'), /* ميكروسكوب وتحليل بيانات */
-                        url('https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=1600'); /* بحث وتطوير لقاحات */
-            background-blend-mode: overlay, multiply; /* دمج الصور الطبية بشكل احترافي */
-            background-repeat: no-repeat, no-repeat;
-            background-position: center, left;
-            background-size: cover, auto 100%; /* توزيع الصور في الخلفية */
+            /* استبدال الصور المركبة بصورة واحدة فخمة تعبر عن تحليل بيانات الصحة العامة */
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1579684388669-c084f67c3b2e?q=80&w=1600'); /* صورة ميكروسكوب وتحليل بيانات ميكروبيولوجية */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover; /* الصورة تملأ الشاشة بالكامل */
             color: white; display: flex; align-items: center; justify-content: center; text-align: center;
-            background-attachment: fixed;
+            background-attachment: fixed; /* تأثير Parallax أنيق عند النزول */
+        }
         }
         /* 4. مسافات بين الأقسام */
         section { padding: 100px 0; }
