@@ -110,14 +110,17 @@
 
 
     
-    <section id="about">
-        <div class="container text-center">
-            <h2 class="display-5 fw-bold mb-5" style="color: var(--main-green);">من نحن؟</h2>
-            <p class="lead mx-auto" style="max-width: 1000px; font-size: 1.5rem; line-height: 2;">
-                منصة متخصصة يشرف عليها **أخصائي صحة عامة وطالب ماجستير**، تهدف لتقديم محتوى موثوق يعتمد بشكل أساسي على تحديثات **WHO** و **NCDC** و **FDA** لضمان دقة المعلومة وترك أثر إيجابي يدوم في المجتمع الليبي.
-            </p>
-        </div>
-    </section>
+   /* 4. قسم من نحن */
+        #about {
+            /* زيادة المسافة من فوق عشان ما تضايقهاش الصورة */
+            padding-top: 150px; 
+            padding-bottom: 120px;
+            /* إضافة مسافة خارجية (Margin) علوية أيضاً لضمان الانفصال البصري */
+            margin-top: -50px; /* تداخل بسيط لجعل الانتقال أجمل */
+            background-color: white; /* خلفية بيضاء لراحة العين */
+            position: relative;
+            z-index: 2; /* لضمان ظهورها فوق تداخل الـ Hero */
+        }
 
     <section id="updates" style="background-color: #f4f7f6;">
         <div class="container">
