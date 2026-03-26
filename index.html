@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-        <div id="container-current" style="display: block;"></div>
-        <div id="container-archive" style="display: none;"></div>
-    </section>
-    <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <style>
-        html { scroll-behavior: smooth; } /* تنقل ناعم بين الأقسام */
-        body { font-family: 'Arial', sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; }
-        
-        /* تنسيق الكروت */
-        .info-card {
-            background: #fff; border-radius: 15px; padding: 25px; margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center;
-        }
-
-        /* تنسيق الأزرار (الجديد والأرشيف) */
-        .toggle-btn {
-            padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: bold;
-            transition: 0.3s; flex: 1; max-width: 150px;
-        }
-    </style>
-</head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أثر صحي | Impact Health</title>
@@ -36,79 +13,7 @@
         /* 1. الخطوط والتنسيق العام */
         :root { --dark-gray: #1e2022; --main-green: #198754; --light-bg: #fdfdfd; }
         body { font-family: 'Tajawal', sans-serif; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; }
-<script>
-        // دالة جلب البيانات من الملفات
-        async function loadData() {
-            await fetchAndFill('current_info.json', 'container-current');
-            await fetchAndFill('archive_info.json', 'container-archive');
-        }
 
-        async function fetchAndFill(file, containerId) {
-            const container = document.getElementById(containerId);
-            try {
-                const res = await fetch(file + '?t=' + new Date().getTime());
-                const data = await res.json();
-                container.innerHTML = ''; // تنظيف أي نص يدوي قديم
-                data.forEach(item => {
-                    container.innerHTML += `
-                        <div class="info-card">
-                            <div style="font-size:35px;"></div>
-                            <h3>${item.title}</h3>
-                            <p>${item.content}</p>
-                            <small> ${item.date || ''}</small>
-                        </div>`;
-                });
-            } catch (e) { container.innerHTML = '<p>لا توجد بيانات حالياً.</p>'; }
-        }
-
-        // دالة التبديل بين الجديد والأرشيف
-        function toggleView(type) {
-            const cur = document.getElementById('container-current');
-            const arc = document.getElementById('container-archive');
-            const bCur = document.getElementById('btn-current');
-            const bArc = document.getElementById('btn-archive');
-
-            if(type === 'current') {
-                cur.style.display = 'block'; arc.style.display = 'none';
-                bCur.style.background = '#219150'; bCur.style.color = 'white';
-                bArc.style.background = '#f0f0f0'; bArc.style.color = '#333';
-            } else {
-                cur.style.display = 'none'; arc.style.display = 'block';
-                bArc.style.background = '#219150'; bArc.style.color = 'white';
-                bCur.style.background = '#f0f0f0'; bCur.style.color = '#333';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadData);
-    </script>
-</body>
-</html>
-        <body>
-    <nav>
-        <a href="#about-section">عن المنصة</a>
-        <a href="#news-section">التوعية الذكية</a>
-        <a href="#store-section">المتجر</a>
-    </nav>
-
-    <section id="about-section" style="padding: 40px 20px;">
-        <h2>عن منصة أثر صحي</h2>
-        <p>هنا تكتب تعريفك كباحث ماجستير وأهداف المنصة...</p>
-    </section>
-
-    <section id="news-section" style="padding: 20px;">
-        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;">
-            <button id="btn-current" class="toggle-btn" onclick="toggleView('current')" style="background:#219150; color:white;">الجديد</button>
-            <button id="btn-archive" class="toggle-btn" onclick="toggleView('archive')" style="background:#f0f0f0; color:#333;">الأرشيف</button>
-        </div>
-
-        <div id="container-current" style="display: block;"></div>
-        <div id="container-archive" style="display: none;"></div>
-    </section>
-
-    <section id="store-section" style="padding: 100px 20px; text-align: center;">
-        <h2>المتجر</h2>
-        <p>انتظرونا قريباً بمعدات الوقاية وأجهزة القياس.</p>
-    </section>
         /* 2. الهيدر الرمادي الغامق والأزرار اللي تخدم */
         .header-top { background-color: var(--dark-gray); color: white; padding: 20px 0; border-bottom: 4px solid var(--main-green); position: sticky; top: 0; z-index: 1000; }
         .nav-box { display: flex; flex-direction: row; gap: 20px; margin-right: auto; }
