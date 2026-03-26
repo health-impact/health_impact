@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أثر صحي | Impact Health</title>
@@ -11,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
-   
-    }
-}
         /* 1. الخطوط والتنسيق العام */
         :root { --dark-gray: #1e2022; --main-green: #198754; --light-bg: #fdfdfd; }
         body { font-family: 'Tajawal', sans-serif; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; }
@@ -114,12 +110,7 @@
 
 <section id="about" style="padding-top: 160px; padding-bottom: 100px; background-color: #ffffff; position: relative; z-index: 10;">
     <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px; text-align: center;">
-       /* كود لزيادة المسافة تحت فقرة "من نحن" */
-.about-section {
-    margin-bottom: 50px !important; /* مسافة كبيرة (50px) تفصل التعريف عن المحتوى */
-    padding-bottom: 20px;           /* فراغ داخلي بسيط */
-    border-bottom: 1px solid #eee;  /* اختيار اختياري: خط خفيف جداً يفصل الأقسام */
-} 
+        
         <h2 style="font-size: clamp(2.8rem, 6vw, 4.2rem); color: #219150; margin-bottom: 40px; font-weight: 900; position: relative; display: inline-block; letter-spacing: -1px;">
             من نحن؟
             <span style="display: block; width: 100px; height: 5px; background: #219150; margin: 15px auto; border-radius: 10px;"></span>
@@ -153,17 +144,33 @@
             <div class="updates-container">
                 <div id="tips-container">
                     <div class="tip-card">
-              <div id="health-news-container">
-    <p>جاري تحميل آخر التحديثات الصحية...</p>
-</div>
+                        <h5 class="fw-bold mb-2">غسل اليدين بالماء والصابون يقلل من انتقال الأمراض المعدية.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">تجنب استخدام المضادات الحيوية بدون استشارة طبية دقيقة.</h5>
+                        <span class="source-label">المصدر: NCDC</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الحفاظ على رطوبة الجسم يعزز من كفاءة الجهاز المناعي.</h5>
+                        <span class="source-label">المصدر: FDA</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">التهوية الجيدة للمختبرات تقلل من الحمل الميكروبي في الهواء.</h5>
+                        <span class="source-label">المصدر: أبحاث ميدانية</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الفحص الدوري لمعدل السكر والضغط يقي من المضاعفات المفاجئة.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    </div>
+                <div class="text-center mt-5">
+                    <button class="btn btn-outline-success rounded-pill px-5 py-3 fw-bold">تصفح أرشيف المعلومات الكامل</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        <div style="text-align: center; margin: 20px 0;">
-    <button id="btn-current" onclick="showCurrent()" style="padding: 10px 20px; background: #219150; color: white; border: none; border-radius: 5px; cursor: pointer;">آخر التحديثات</button>
-    <button id="btn-archive" onclick="showArchive()" style="padding: 10px 20px; background: #eeeeee; color: #333; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">الأرشيف القديم</button>
-</div>
-
-
-                        
     <section id="store">
         <div class="container">
             <h2 class="text-center fw-bold mb-5 display-6 text-success">متجر المستلزمات الصحية</h2>
@@ -208,85 +215,8 @@
             </div>
         </div>
     </footer>
-<script>
-    async function fetchHealthData() {
-        try {
-            const response = await fetch('current_info.json');
-            const data = await response.json();
 
-            const container = document.getElementById('health-news-container');
-            container.innerHTML = ''; 
-
-            data.forEach(item => {
-                // هنا نستخدم نفس الكلاسات (Classes) اللي في CSS بتاعك
-                const card = `
-                    <div class="info-card" style="margin-bottom: 20px; border-left: 5px solid #219150;">
-                        <h3 style="font-size: 1.4rem; color: #2c3e50; margin-bottom: 8px;">${item.title}</h3>
-                        <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">${item.content}</p>
-                        
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #eee; padding-top: 8px;">
-                            <span style="font-size: 0.9rem; color: #219150; font-weight: bold;">
-                                 المصدر: ${item.source || 'منظمة الصحة العالمية'} 
-                            </span>
-                            <span style="font-size: 0.8rem; color: #999;"> ${item.date || item.updated_at}</span>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        } catch (error) {
-            console.error("فشل في تغذية الموقع بالبيانات:", error);
-        }
-    }
-    window.onload = fetchHealthData;
-</script>
-                        <script>
-    // دالة عامة لجلب البيانات من أي ملف
-    async function loadData(fileName) {
-        try {
-            const response = await fetch(fileName);
-            const data = await response.json();
-            const container = document.getElementById('health-news-container');
-            container.innerHTML = ''; 
-
-            data.forEach(item => {
-                const card = `
-                    <div class="info-card" style="border-right: 5px solid #219150; margin-bottom: 15px; padding: 15px; background: #f9f9f9;">
-                        <h3>${item.title}</h3>
-                        <p>${item.content}</p>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
-                            <span> المصدر: ${item.source || 'منظمة الصحة العالمية'}</span>
-                            <span> ${item.date || item.updated_at}</span>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        } catch (error) {
-            document.getElementById('health-news-container').innerHTML = '<p>لا توجد بيانات مؤرشفة حالياً.</p>';
-        }
-    }
-
-    // وظيفة زر "آخر التحديثات"
-    function showCurrent() {
-        loadData('current_info.json');
-        document.getElementById('btn-current').style.background = '#219150';
-        document.getElementById('btn-current').style.color = 'white';
-        document.getElementById('btn-archive').style.background = '#eeeeee';
-        document.getElementById('btn-archive').style.color = '#333';
-    }
-
-    // وظيفة زر "الأرشيف"
-    function showArchive() {
-        loadData('archive_info.json');
-        document.getElementById('btn-archive').style.background = '#219150';
-        document.getElementById('btn-archive').style.color = 'white';
-        document.getElementById('btn-current').style.background = '#eeeeee';
-        document.getElementById('btn-current').style.color = '#333';
-    }
-
-    // تشغيل الموقع على "آخر التحديثات" كوضع افتراضي
-    window.onload = showCurrent;
-</script>
 </body>
 </html>
+
+- [ ] 
