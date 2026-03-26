@@ -169,15 +169,19 @@
                 </div>
             </div>
         </div>
-    </section>
-<div style="text-align: center; margin: 20px 0;">
-    <button id="btn-current" onclick="showCurrent()" style="padding: 10px 20px; background: #219150; color: white; border: none; border-radius: 5px; cursor: pointer;">آخر التحديثات</button>
-    <button id="btn-archive" onclick="showArchive()" style="padding: 10px 20px; background: #eeeeee; color: #333; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">الأرشيف القديم</button>
+    <div style="text-align: center; margin: 30px 0; display: flex; justify-content: center; gap: 10px;">
+    <button id="btn-current" onclick="showCurrent()" 
+        style="padding: 10px 25px; background: #219150; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+        آخر التحديثات
+    </button>
+    <button id="btn-archive" onclick="showArchive()" 
+        style="padding: 10px 25px; background: #f0f0f0; color: #333; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+        الأرشيف القديم
+    </button>
 </div>
 
 <div id="health-news-container">
-    <p></p>
-</div>
+    </div>
     <section id="store">
         <div class="container">
             <h2 class="text-center fw-bold mb-5 display-6 text-success">متجر المستلزمات الصحية</h2>
@@ -222,57 +226,70 @@
             </div>
         </div>
     </footer>
-<script>
+        <script>
+    // وظيفة جلب البيانات وعرضها
     async function loadData(fileName) {
-        try {
-            const container = document.getElementById('health-news-container');
-            
-            // 🛑 الخطوة الأهم: تفريغ الصندوق تماماً قبل وضع البيانات الجديدة
-            container.innerHTML = '<p style="text-align:center;">جاري التحميل...</p>'; 
+        const container = document.getElementById('health-news-container');
+        
+        // 1. تصفير الحاوية تماماً (عشان ما يتراكمش الأرشيف مع الجديد)
+        container.innerHTML = '<p style="text-align:center; color:#888;">جاري تحميل البيانات...</p>';
 
+        try {
             const response = await fetch(fileName);
+            if (!response.ok) throw new Error('الملف غير موجود');
+            
             const data = await response.json();
             
-            // تمسح كلمة "جاري التحميل" وتبدأ تحط الكروت
+            // 2. مسح رسالة التحميل والبدء من جديد
             container.innerHTML = ''; 
 
             data.forEach(item => {
+                // تصميم الكرت (نفس ستايل الصورة اللي بعثتها)
                 const card = `
-                    <div class="info-card">
-                        <div class="icon">🔬</div>
-                        <h3>${item.title}</h3>
-                        <p>${item.content}</p>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #999; margin-top: 15px;">
-                            <span> المصدر: ${item.source || 'منظمة الصحة العالمية'}</span>
-                            <span>${item.date || item.updated_at}</span>
+                    <div class="info-card" style="background:#fff; border-radius:15px; padding:25px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border:1px solid #eee; text-align:center;">
+                        <div style="font-size:40px; margin-bottom:15px;">🔬</div>
+                        <h3 style="margin-bottom:10px; color:#222;">${item.title}</h3>
+                        <p style="color:#666; line-height:1.7;">${item.content}</p>
+                        <div style="margin-top:15px; padding-top:15px; border-top:1px solid #f9f9f9; display:flex; justify-content:space-between; font-size:12px; color:#aaa;">
+                            <span> المصدر: ${item.source || 'منصة أثر صحي'}</span>
+                            <span> ${item.date || item.updated_at}</span>
                         </div>
                     </div>
                 `;
                 container.innerHTML += card;
             });
         } catch (error) {
-            console.error("خطأ في جلب البيانات:", error);
-            document.getElementById('health-news-container').innerHTML = '<p>عذراً، حدث خطأ في تحميل البيانات.</p>';
+            container.innerHTML = '<p style="text-align:center; color:red;">عذراً، لا توجد بيانات في هذا القسم حالياً.</p>';
         }
     }
 
+    // تبديل للأخبار الحالية
     function showCurrent() {
         loadData('current_info.json');
-        // تغيير ألوان الأزرار للتوضيح
-        document.getElementById('btn-current').style.background = '#219150';
-        document.getElementById('btn-current').style.color = 'white';
-        document.getElementById('btn-archive').style.background = '#eeeeee';
-        document.getElementById('btn-archive').style.color = '#333';
+        updateButtons('btn-current');
     }
 
+    // تبديل للأرشيف
     function showArchive() {
         loadData('archive_info.json');
-        document.getElementById('btn-archive').style.background = '#219150';
-        document.getElementById('btn-archive').style.color = 'white';
-        document.getElementById('btn-current').style.background = '#eeeeee';
-        document.getElementById('btn-current').style.color = '#333';
+        updateButtons('btn-archive');
     }
 
+    // وظيفة تجميلية لتغيير ألوان الأزرار عند الضغط
+    function updateButtons(activeId) {
+        const btnCurrent = document.getElementById('btn-current');
+        const btnArchive = document.getElementById('btn-archive');
+        
+        if (activeId === 'btn-current') {
+            btnCurrent.style.background = '#219150'; btnCurrent.style.color = 'white';
+            btnArchive.style.background = '#f0f0f0'; btnArchive.style.color = '#333';
+        } else {
+            btnArchive.style.background = '#219150'; btnArchive.style.color = 'white';
+            btnCurrent.style.background = '#f0f0f0'; btnCurrent.style.color = '#333';
+        }
+    }
+
+    // تشغيل الجديد تلقائياً عند فتح الموقع
     window.onload = showCurrent;
 </script>
 </body>
