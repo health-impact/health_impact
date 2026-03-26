@@ -227,55 +227,60 @@
         </div>
     </footer>
         <script>
-    // وظيفة جلب البيانات وعرضها
+    // دالة أساسية لمسح الحاوية وجلب البيانات
     async function loadData(fileName) {
         const container = document.getElementById('health-news-container');
         
-        // 1. تصفير الحاوية تماماً (عشان ما يتراكمش الأرشيف مع الجديد)
-        container.innerHTML = '<p style="text-align:center; color:#888;">جاري تحميل البيانات...</p>';
+        // 1. التصفير الفوري (إخفاء أي محتوى قديم فوراً)
+        container.innerHTML = ''; 
+        
+        // إضافة رسالة تحميل بسيطة (اختياري)
+        const loadingMsg = document.createElement('p');
+        loadingMsg.innerText = 'جاري التبديل...';
+        loadingMsg.style.textAlign = 'center';
+        container.appendChild(loadingMsg);
 
         try {
-            const response = await fetch(fileName);
+            const response = await fetch(fileName + '?t=' + new Date().getTime()); // منع الكاش (Cache)
             if (!response.ok) throw new Error('الملف غير موجود');
             
             const data = await response.json();
             
-            // 2. مسح رسالة التحميل والبدء من جديد
+            // 2. مسح رسالة التحميل والبدء في الرسم من الصفر
             container.innerHTML = ''; 
 
             data.forEach(item => {
-                // تصميم الكرت (نفس ستايل الصورة اللي بعثتها)
                 const card = `
                     <div class="info-card" style="background:#fff; border-radius:15px; padding:25px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border:1px solid #eee; text-align:center;">
                         <div style="font-size:40px; margin-bottom:15px;">🔬</div>
                         <h3 style="margin-bottom:10px; color:#222;">${item.title}</h3>
                         <p style="color:#666; line-height:1.7;">${item.content}</p>
                         <div style="margin-top:15px; padding-top:15px; border-top:1px solid #f9f9f9; display:flex; justify-content:space-between; font-size:12px; color:#aaa;">
-                            <span> المصدر: ${item.source || 'منصة أثر صحي'}</span>
-                            <span> ${item.date || item.updated_at}</span>
+                            <span>📍 المصدر: ${item.source || 'منصة أثر صحي'}</span>
+                            <span>📅 ${item.date || item.updated_at}</span>
                         </div>
                     </div>
                 `;
                 container.innerHTML += card;
             });
         } catch (error) {
-            container.innerHTML = '<p style="text-align:center; color:red;">عذراً، لا توجد بيانات في هذا القسم حالياً.</p>';
+            container.innerHTML = '<p style="text-align:center; color:red;">عذراً، لا توجد بيانات لعرضها حالياً.</p>';
         }
     }
 
-    // تبديل للأخبار الحالية
+    // زر التبديل للأخبار الحالية
     function showCurrent() {
-        loadData('current_info.json');
         updateButtons('btn-current');
+        loadData('current_info.json');
     }
 
-    // تبديل للأرشيف
+    // زر التبديل للأرشيف
     function showArchive() {
-        loadData('archive_info.json');
         updateButtons('btn-archive');
+        loadData('archive_info.json');
     }
 
-    // وظيفة تجميلية لتغيير ألوان الأزرار عند الضغط
+    // وظيفة التحكم في شكل الأزرار
     function updateButtons(activeId) {
         const btnCurrent = document.getElementById('btn-current');
         const btnArchive = document.getElementById('btn-archive');
@@ -289,8 +294,8 @@
         }
     }
 
-    // تشغيل الجديد تلقائياً عند فتح الموقع
-    window.onload = showCurrent;
+    // التشغيل التلقائي عند فتح الصفحة
+    document.addEventListener('DOMContentLoaded', showCurrent);
 </script>
 </body>
 </html>
