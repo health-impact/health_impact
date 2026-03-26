@@ -11,10 +11,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
-    .info-card p {
-        font-size: 1rem;
-        line-height: 1.6; /* المسافة اللي زدناها للراحة */
-        text-align: right; /* محاذاة لليمين بانتظام */
+    /* تنسيق الكرت الرئيسي */
+.info-card {
+    background: #ffffff;
+    border-radius: 15px;       /* زوايا ناعمة جداً زي الصورة */
+    padding: 30px;             /* مساحة داخلية واسعة */
+    margin-bottom: 25px;
+    text-align: center;        /* توسيط كل شيء داخل الكرت */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* ظل خفيف جداً يعطي عمق */
+    border: 1px solid #f0f0f0; /* إطار خفيف جداً */
+    transition: transform 0.3s ease; /* تأثير بسيط عند اللمس */
+}
+
+/* الأيقونة (زي القلب أو الشخص في الصورة) */
+.info-card .icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* العنوان الرئيسي (زي "أدوات الوقاية الشخصية") */
+.info-card h3 {
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* النص الوصفي */
+.info-card p {
+    color: #777;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+/* زر "متوفر قريباً" أو "اقرأ المزيد" */
+.status-btn {
+    display: inline-block;
+    padding: 8px 25px;
+    border: 1.5px solid #007bff; /* أزرق زي الصورة */
+    color: #007bff;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* لو تبي تغير لون الزر لـ أحمر (زي أجهزة القياس) */
+.status-btn.red {
+    border-color: #dc3545;
+    color: #dc3545;
+}
     }
 }
         /* 1. الخطوط والتنسيق العام */
