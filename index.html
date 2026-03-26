@@ -195,20 +195,25 @@
 <script>
     async function fetchHealthData() {
         try {
-            // 1. طلب البيانات من ملف الـ JSON اللي يحدث فيه البوت
             const response = await fetch('current_info.json');
             const data = await response.json();
 
             const container = document.getElementById('health-news-container');
-            container.innerHTML = ''; // تنظيف كلمة "جاري التحميل"
+            container.innerHTML = ''; 
 
-            // 2. رسم المعلومات في الموقع
             data.forEach(item => {
+                // هنا نستخدم نفس الكلاسات (Classes) اللي في CSS بتاعك
                 const card = `
-                    <div style="border: 1px solid #eeeeee; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
-                        <h3 style="color: #219150;">${item.title}</h3>
-                        <p>${item.content}</p>
-                        <small style="color: #666;">التاريخ: ${item.date}</small>
+                    <div class="info-card" style="margin-bottom: 20px; border-left: 5px solid #219150;">
+                        <h3 style="font-size: 1.4rem; color: #2c3e50; margin-bottom: 8px;">${item.title}</h3>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">${item.content}</p>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #eee; padding-top: 8px;">
+                            <span style="font-size: 0.9rem; color: #219150; font-weight: bold;">
+                                📍 المصدر: ${item.source || 'منظمة الصحة العالمية'} 
+                            </span>
+                            <span style="font-size: 0.8rem; color: #999;">📅 ${item.date || item.updated_at}</span>
+                        </div>
                     </div>
                 `;
                 container.innerHTML += card;
@@ -217,8 +222,6 @@
             console.error("فشل في تغذية الموقع بالبيانات:", error);
         }
     }
-
-    // تشغيل الدالة فور فتح الصفحة
     window.onload = fetchHealthData;
 </script>
 </body>
