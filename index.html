@@ -215,7 +215,37 @@
             </div>
         </div>
     </footer>
+async function fetchAndFill(file, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return; // تأمين في حال عدم وجود الحاوية
 
+    try {
+        // إضافة التوقيت لمنع الكاش (Cache) الذي قد يسبب تكرار بيانات قديمة
+        const res = await fetch(file + '?t=' + new Date().getTime());
+        const data = await res.json();
+        
+        // 🛑 السطر السحري: يمسح أي محتوى يدوي أو قديم تماماً
+        container.innerHTML = ''; 
+
+        // التأكد من أن البيانات فريدة (إزالة التكرار من المصفوفة نفسها لو وجد)
+        const uniqueData = Array.from(new Set(data.map(a => JSON.stringify(a)))).map(a => JSON.parse(a));
+
+        uniqueData.forEach(item => {
+            container.innerHTML += `
+                <div class="info-card">
+                    <div style="font-size:35px; margin-bottom:10px;">🔬</div>
+                    <h3 style="margin-bottom:10px; color:#222;">${item.title}</h3>
+                    <p style="color:#555; line-height:1.7;">${item.content}</p>
+                    <div style="margin-top:15px; font-size:11px; color:#999; border-top:1px solid #eee; padding-top:10px;">
+                        <span>📍 المصدر: ${item.source || 'أثر صحي'}</span>
+                        <span style="float:left;">📅 ${item.date || ''}</span>
+                    </div>
+                </div>`;
+        });
+    } catch (e) { 
+        container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد بيانات حالياً.</p>'; 
+    }
+}
 </body>
 </html>
 
