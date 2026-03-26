@@ -14,7 +14,7 @@ def generate_tip():
     return json.loads(response.text)
 
 # 1. قراءة البيانات الحالية
-with open('athardata.json', 'r', encoding='utf-8') as f:
+with open('current_info.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # 2. توليد النصيحة الجديدة
@@ -25,7 +25,7 @@ new_tip['date'] = datetime.now().strftime("%Y-%m-%d")
 data.insert(0, new_tip)
 
 # 4. حفظ الملف
-with open('athardata.json', 'w', encoding='utf-8') as f:
+with open('current_info.json', 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 # هذا الجزء يوضع داخل ملف البايثون لضمان جودة النصيحة
 prompt = """
