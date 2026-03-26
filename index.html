@@ -77,14 +77,13 @@
         .store-card:hover { transform: translateY(-15px); border-color: var(--main-green); }
         .icon-box { margin-bottom: 25px; color: var(--main-green); }
 
-      /* 7. تذييل الموقع (Footer) - إضافة مسافة وتنسيق فخم */
-footer {
-    margin-top: 120px; /* المسافة اللي تباعد الديل "فوقه" عن المتجر */
-    padding: 60px 0;   /* مسافة "داخلية" باش الكلام ما يلصقش في الحواشي */
-    background-color: #ffffff; /* الخلفية البيضاء النظيفة */
-    border-top: 1px solid #eeeeee; /* خط فاصل رقيق جداً يعطي فخامة */
-    text-align: center;
-}
+        /* 7. تجميل الذيل (Footer) */
+        .footer { background: var(--dark-gray); color: #888; padding: 80px 0 30px; text-align: center; }
+        .footer h4 { color: white; font-weight: 800; margin-bottom: 20px; }
+        .ai-status { border: 2px solid var(--main-green); border-radius: 20px; padding: 25px; display: inline-flex; flex-direction: column; align-items: center; gap: 15px; color: white; background: rgba(25,135,84,0.1); margin-top: 40px; max-width: 600px; }
+    </style>
+</head>
+<body>
 
     <header class="header-top">
         <div class="container d-flex align-items-center justify-content-between">
