@@ -1,26 +1,18 @@
-/* تنسيق خاص للهواتف فقط */
-@media (max-width: 768px) {
-    .nav-links {
-        display: flex;
-        flex-direction: row; /* يخليهم جنب بعض بخط أصغر */
-        flex-wrap: wrap;    /* لو المساحة ما سدتش ينزلوا سطر جديد */
-        justify-content: center;
-        gap: 10px;
-        padding: 10px 0;
-    }
+/* الصندوق الرئيسي اللي فيه كل النصائح */
+#health-news-container {
+    width: 95%;           /* ياخد 95% من عرض شاشة التليفون */
+    max-row: 800px;       /* في الكمبيوتر ما يتوسعش أكثر من 800px باش ما يهربش المنظر */
+    margin: 20px auto;    /* يخلي الصندوق في النص بالضبط */
+    padding: 10px;
+    display: block;       /* يخلي العناصر تنزل تحت بعضها */
+}
 
-    .nav-links a {
-        font-size: 0.9rem; /* تصغير الخط شوية باش يسد في الشاشة */
-        padding: 8px 12px;
-        background: #f4f7f6; /* اللون الثلجي اللي اخترته للخلفية */
-        border-radius: 8px;
-        color: #000000; /* الأسود الموحد */
-        border: 1px solid #eeeeee;
-    }
-    
-    /* إظهار الزر النشط بالأخضر الأعمق */
-    .nav-links a:active {
-        background-color: #219150;
-        color: white;
-    }
+/* الكرت الخاص بكل معلومة */
+.info-card {
+    width: 100%;          /* الكرت ياخد عرض الصندوق بالكامل */
+    box-sizing: border-box; /* يضمن إن الحواشي ما تطلعش الكرت برا الشاشة */
+    word-wrap: break-word;  /* لو فيه كلمة طويلة (زي مصطلح طبي) يكسرها وما يطلعهاش برا */
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
 }
