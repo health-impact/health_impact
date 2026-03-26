@@ -215,71 +215,7 @@
             </div>
         </div>
     </footer>
-<script>
-    async function initAtharSystem() {
-        const containerCurrent = document.getElementById('container-current');
-        const containerArchive = document.getElementById('container-archive');
 
-        try {
-            // 1. جلب البيانات مع كود لمنع الكاش (Cache) لضمان التحديث الفوري
-            const response = await fetch('athardata.json?v=' + new Date().getTime());
-            const rawData = await response.json();
-
-            // 2. 🛑 منع التكرار: تصفية البيانات بناءً على "العنوان" (Title) 
-            // هكي لو عاودت نفس النصيحة مرتين في الملف، حتطلع مرة واحدة بس في الموقع
-            const uniqueData = rawData.filter((item, index, self) =>
-                index === self.findIndex((t) => t.title === item.title)
-            );
-
-            // 3. التصفير الفوري للحاويات (تنظيف الشاشة)
-            containerCurrent.innerHTML = '';
-            containerArchive.innerHTML = '';
-
-            // 4. التقسيم الذكي:
-            // أحدث 5 نصائح للقسم الرئيسي
-            const currentItems = uniqueData.slice(0, 5); 
-            // من النصيحة رقم 6 فما فوق تذهب للأرشيف
-            const archiveItems = uniqueData.slice(5); 
-
-            // 5. عرض النتائج
-            renderToScreen(currentItems, 'container-current');
-            renderToScreen(archiveItems, 'container-archive');
-
-        } catch (error) {
-            console.error("خطأ في تحميل البيانات:", error);
-            containerCurrent.innerHTML = '<p style="text-align:center;">جاري تجهيز النصائح الطبية...</p>';
-        }
-    }
-
-    function renderToScreen(items, containerId) {
-        const container = document.getElementById(containerId);
-        
-        if (items.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نصائح إضافية حالياً.</p>';
-            return;
-        }
-
-        items.forEach(item => {
-            // ستايل الكروت بناءً على النوع (نصيحة أخضر / تحذير أحمر)
-            const cardStyle = item.type === 'warning' ? 'border-right: 5px solid #dc3545;' : 'border-right: 5px solid #219150;';
-            const icon = item.type === 'warning' ? '⚠️' : '💡';
-
-            container.innerHTML += `
-                <div class="info-card" style="${cardStyle} background:#fff; border-radius:12px; padding:20px; margin-bottom:15px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-                    <div style="font-size:25px; margin-bottom:10px;">${icon}</div>
-                    <h3 style="margin-bottom:8px; font-size:1.2rem;">${item.title}</h3>
-                    <p style="color:#555; line-height:1.6; font-size:0.95rem;">${item.content}</p>
-                    <div style="margin-top:12px; font-size:11px; color:#aaa; display:flex; justify-content:space-between; border-top:1px solid #f9f9f9; padding-top:8px;">
-                        <span> المصدر: ${item.source || 'أثر صحي'}</span>
-                        <span> ${item.date || ''}</span>
-                    </div>
-                </div>`;
-        });
-    }
-
-    // تشغيل النظام عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', initAtharSystem);
-</script>
 </body>
 </html>
 
