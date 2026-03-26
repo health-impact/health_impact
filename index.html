@@ -11,6 +11,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
+        #health-news-container {
+    width: 100% !important;   /* يفرش بعرض الشاشة */
+    max-width: 100% !important; 
+    padding: 15px !important;  /* مسافة "تنفس" بسيطة عالجناب */
+    margin: 0 auto !important; /* يتوسط في النص */
+    box-sizing: border-box;    /* يمنع خروج المحتوى برا الشاشة */
+}
+        .info-card {
+    width: 100% !important;    /* الكرت ياخد العرض المتاح كله */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 25px;       /* المسافة اللي طلبتها بين الفقرات */
+    padding: 20px;             /* فراغ داخلي مريح */
+    display: block;            /* يضمن إن الكروت تحت بعضها بانتظام */
+    word-wrap: break-word;     /* يكسر الكلمات الطويلة باش ما تطلعش برا */
+}
+        @media (max-width: 600px) {
+    /* تصغير المسافات الجانبية لأقصى حد */
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* جعل العناوين والفقرات تفرش بالعرض الكامل */
+    .info-card h3 {
+        font-size: 1.2rem; /* حجم مناسب لشاشة التليفون */
+        line-height: 1.4;
+    }
+    
+    .info-card p {
+        font-size: 1rem;
+        line-height: 1.6; /* المسافة اللي زدناها للراحة */
+        text-align: right; /* محاذاة لليمين بانتظام */
+    }
+}
         /* 1. الخطوط والتنسيق العام */
         :root { --dark-gray: #1e2022; --main-green: #198754; --light-bg: #fdfdfd; }
         body { font-family: 'Tajawal', sans-serif; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; }
