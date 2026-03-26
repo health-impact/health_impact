@@ -144,32 +144,9 @@
             <div class="updates-container">
                 <div id="tips-container">
                     <div class="tip-card">
-                        <h5 class="fw-bold mb-2">غسل اليدين بالماء والصابون يقلل من انتقال الأمراض المعدية.</h5>
-                        <span class="source-label">المصدر: WHO</span>
-                    </div>
-                    <div class="tip-card">
-                        <h5 class="fw-bold mb-2">تجنب استخدام المضادات الحيوية بدون استشارة طبية دقيقة.</h5>
-                        <span class="source-label">المصدر: NCDC</span>
-                    </div>
-                    <div class="tip-card">
-                        <h5 class="fw-bold mb-2">الحفاظ على رطوبة الجسم يعزز من كفاءة الجهاز المناعي.</h5>
-                        <span class="source-label">المصدر: FDA</span>
-                    </div>
-                    <div class="tip-card">
-                        <h5 class="fw-bold mb-2">التهوية الجيدة للمختبرات تقلل من الحمل الميكروبي في الهواء.</h5>
-                        <span class="source-label">المصدر: أبحاث ميدانية</span>
-                    </div>
-                    <div class="tip-card">
-                        <h5 class="fw-bold mb-2">الفحص الدوري لمعدل السكر والضغط يقي من المضاعفات المفاجئة.</h5>
-                        <span class="source-label">المصدر: WHO</span>
-                    </div>
-                    </div>
-                <div class="text-center mt-5">
-                    <button class="btn btn-outline-success rounded-pill px-5 py-3 fw-bold">تصفح أرشيف المعلومات الكامل</button>
-                </div>
-            </div>
-        </div>
-    </section>
+              <div id="health-news-container">
+    <p>جاري تحميل آخر التحديثات الصحية...</p>
+</div>
 
     <section id="store">
         <div class="container">
@@ -215,6 +192,34 @@
             </div>
         </div>
     </footer>
+<script>
+    async function fetchHealthData() {
+        try {
+            // 1. طلب البيانات من ملف الـ JSON اللي يحدث فيه البوت
+            const response = await fetch('current_info.json');
+            const data = await response.json();
 
+            const container = document.getElementById('health-news-container');
+            container.innerHTML = ''; // تنظيف كلمة "جاري التحميل"
+
+            // 2. رسم المعلومات في الموقع
+            data.forEach(item => {
+                const card = `
+                    <div style="border: 1px solid #eeeeee; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
+                        <h3 style="color: #219150;">${item.title}</h3>
+                        <p>${item.content}</p>
+                        <small style="color: #666;">التاريخ: ${item.date}</small>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } catch (error) {
+            console.error("فشل في تغذية الموقع بالبيانات:", error);
+        }
+    }
+
+    // تشغيل الدالة فور فتح الصفحة
+    window.onload = fetchHealthData;
+</script>
 </body>
 </html>
