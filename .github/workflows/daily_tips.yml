@@ -1,0 +1,32 @@
+name: Auto Health Tips Bot
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # يتنفذ كل 12 ساعة بالضبط
+  workflow_dispatch: # زر لتشغيله يدوياً للتجربة
+
+jobs:
+  update-tips:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: pip install google-generativeai
+
+      - name: Generate and Update Tip
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python update_tips.py # ملف البايثون اللي حيكتب النصيحة
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "bot@athar-sihi.com"
+          git config --local user.name "Athar-Bot"
+          git add athardata.json
+          git commit -m "إضافة نصيحة طبية دورية تلقائية"
+          git push
