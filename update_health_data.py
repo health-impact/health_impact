@@ -1,36 +1,49 @@
 import json
 import datetime
 
-def start_bot():
-    # 1. هادي المعلومة الجديدة (توا نغيروها لـ API لاحقاً)
-    new_info = {
-        "title": "تحديث صحي دوري",
-        "content": "الالتزام بغسل اليدين يقلل انتشار البكتيريا بنسبة كبيرة.",
-        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    }
+def update_and_archive():
+    # 1. قائمة بـ 5 معلومات طبية (توا نغيروها لـ API من WHO و NCDC لاحقاً)
+    new_entries = [
+        {"title": "نصيحة 1", "content": "شرب الماء بانتظام يحسن وظائف الكلى.", "source": "WHO"},
+        {"title": "نصيحة 2", "content": "النوم الكافي (7-8 ساعات) ضروري للصحة العقلية.", "source": "NCDC"},
+        {"title": "نصيحة 3", "content": "التقليل من السكر يحمي من خطر السكري.", "source": "WHO"},
+        {"title": "نصيحة 4", "content": "النشاط البدني اليومي يقوي عضلة القلب.", "source": "Health Research"},
+        {"title": "نصيحة 5", "content": "غسل اليدين هو خط الدفاع الأول ضد الأوبئة.", "source": "NCDC"}
+    ]
+    
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    # 2. نفتحوا الملف الحالي باش نشوفوا شن فيه
+    # 2. قراءة المعلومات الحالية (قبل ما نمسحوها)
     try:
         with open('current_info.json', 'r', encoding='utf-8') as f:
-            old_info = json.load(f)
+            old_data = json.load(f)
     except:
-        old_info = None
+        old_data = []
 
-    # 3. لو فيه معلومة قديمة، نبعتوها للأرشيف فوراً
-    if old_info:
+    # 3. الأرشفة: لو فيه بيانات قديمة، انقلها لملف الأرشيف وزيد عليها
+    if old_data:
         try:
             with open('archive_info.json', 'r', encoding='utf-8') as f:
-                archive_list = json.load(f)
+                archive = json.load(f)
         except:
-            archive_list = []
+            archive = []
         
-        archive_list.append(old_info)
-        with open('archive_info.json', 'w', encoding='utf-8') as f:
-            json.dump(archive_list, f, ensure_ascii=False, indent=4)
+        # إضافة البيانات القديمة للأرشيف (كقائمة)
+        if isinstance(old_data, list):
+            archive.extend(old_data)
+        else:
+            archive.append(old_data)
 
-    # 4. نحطوا المعلومة الجديدة في الملف الأساسي
+        with open('archive_info.json', 'w', encoding='utf-8') as f:
+            json.dump(archive, f, ensure_ascii=False, indent=4)
+
+    # 4. تحديث ملف المعلومات الحالي بـ 5 معلومات جديدة
+    # إضافة الوقت لكل معلومة
+    for entry in new_entries:
+        entry["updated_at"] = timestamp
+
     with open('current_info.json', 'w', encoding='utf-8') as f:
-        json.dump(new_info, f, ensure_ascii=False, indent=4)
+        json.dump(new_entries, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
-    start_bot()
+    update_and_archive()
