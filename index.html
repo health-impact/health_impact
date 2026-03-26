@@ -222,7 +222,54 @@
             </div>
         </div>
     </footer>
+<script>
+    // دالة عامة لجلب البيانات من أي ملف
+    async function loadData(fileName) {
+        try {
+            const response = await fetch(fileName);
+            const data = await response.json();
+            const container = document.getElementById('health-news-container');
+            container.innerHTML = ''; 
 
+            data.forEach(item => {
+                const card = `
+                    <div class="info-card" style="border-right: 5px solid #219150; margin-bottom: 15px; padding: 15px; background: #f9f9f9;">
+                        <h3>${item.title}</h3>
+                        <p>${item.content}</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>📍 المصدر: ${item.source || 'منظمة الصحة العالمية'}</span>
+                            <span>📅 ${item.date || item.updated_at}</span>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } catch (error) {
+            document.getElementById('health-news-container').innerHTML = '<p>لا توجد بيانات مؤرشفة حالياً.</p>';
+        }
+    }
+
+    // وظيفة زر "آخر التحديثات"
+    function showCurrent() {
+        loadData('current_info.json');
+        document.getElementById('btn-current').style.background = '#219150';
+        document.getElementById('btn-current').style.color = 'white';
+        document.getElementById('btn-archive').style.background = '#eeeeee';
+        document.getElementById('btn-archive').style.color = '#333';
+    }
+
+    // وظيفة زر "الأرشيف"
+    function showArchive() {
+        loadData('archive_info.json');
+        document.getElementById('btn-archive').style.background = '#219150';
+        document.getElementById('btn-archive').style.color = 'white';
+        document.getElementById('btn-current').style.background = '#eeeeee';
+        document.getElementById('btn-current').style.color = '#333';
+    }
+
+    // تشغيل الموقع على "آخر التحديثات" كوضع افتراضي
+    window.onload = showCurrent;
+</script>
 </body>
 </html>
 
