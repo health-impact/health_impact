@@ -2,7 +2,7 @@ name: Athar Health Bot
 
 on:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 */5 * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true # مهم جداً
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,5 +34,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add athardata.json
-          git commit -m "تحديث طبي تلقائي 🔬" || echo "لا توجد تغييرات"
-          git push origin main
+          git commit -m "تحديث طبي تلقائي 🔬" || echo "No changes to commit"
+          git push origin main # تأكد إن اسم الفرع main زي ما هو طالع عندك في الصورة فوق
