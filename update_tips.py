@@ -9,7 +9,7 @@ genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_health_tips(count=5):
-    # طلب 5 نصائح مختلفة في برومبت واحد لضمان التنوع
+    # طلب نصيحة او معلومة مختلفة في برومبت واحد لضمان التنوع
     prompt = f"""
     أنت خبير في الصحة العامة والميكروبيولوجيا لمنصة 'أثر صحي'.
     أعطني قائمة مكونة من {count} نصائح طبية أو تحذيرات صحية مختلفة تماماً عن بعضها.
