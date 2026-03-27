@@ -2,13 +2,18 @@ name: Athar Health Bot
 
 on:
   schedule:
-    - cron: '0 */2 * * *'  # التغيير هنا: الرقم 2 يعني كل ساعتين
-  workflow_dispatch:      # هكي تقدر تشغله يدوياً في أي وقت
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: # إضافة تصريح صريح للكتابة
+      contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -24,5 +29,5 @@ jobs:
           git config --local user.email "bot@athar-health.com"
           git config --local user.name "AtharBot"
           git add athardata.json
-          git commit -m "تحديث تلقائي: نصيحة صحية جديدة" || exit 0
-          git push
+          git commit -m "تحديث تلقائي: نصيحة صحية جديدة" || echo "No changes to commit"
+          git push origin main
