@@ -2,56 +2,72 @@ import json
 import os
 import google.generativeai as genai
 from datetime import datetime
-import time
 
-# إعداد الذكاء الاصطناعي
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
+# 1. إعداد الذكاء الاصطناعي
+try:
+    genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    print("✅ تم الاتصال بمفتاح Gemini بنجاح.")
+except Exception as e:
+    print(f"❌ خطأ في إعداد Gemini: {e}")
 
 def generate_health_tips(count=5):
-    # طلب خمسة نصائح مختلفة في برومبت واحد لضمان التنوع
     prompt = f"""
-    أنت خبير في الصحة العامة والميكروبيولوجيا لمنصة 'أثر صحي'.
-    أعطني قائمة مكونة من {count} نصائح طبية أو تحذيرات صحية مختلفة تماماً عن بعضها.
-    المواضيع: (مقاومة المضادات، الفيب، بكتيريا الغذاء، جودة النوم، غسل اليدين).
-    الشروط: 
-    1. اللهجة: عربية فصحى مبسطة.
-    2. التنسيق: JSON فقط عبارة عن Array (قائمة) كالتالي:
+    أنت خبير في الصحة العامة والميكروبيولوجيا لمنصة 'أثر صحي' في ليبيا.
+    أعطني قائمة مكونة من {count} نصائح طبية أو تحذيرات صحية متنوعة (بكتيريا، فيروسات، صحة عامة).
+    التنسيق: JSON فقط عبارة عن Array (قائمة) كالتالي:
     [
-      {{"title": "عنوان 1", "content": "نصيحة 1", "type": "tip", "source": "WHO"}},
-      {{"title": "عنوان 2", "content": "نصيحة 2", "type": "warning", "source": "NCDC"}}
+      {{"title": "عنوان", "content": "نصيحة", "type": "tip", "source": "WHO"}}
     ]
     """
     response = model.generate_content(prompt)
-    clean_json = response.text.replace('```json', '').replace('```', '').strip()
+    # تنظيف النص من أي علامات markdown
+    clean_json = response.text.strip()
+    if clean_json.startswith('```json'):
+        clean_json = clean_json[7:-3].strip()
+    elif clean_json.startswith('```'):
+        clean_json = clean_json[3:-3].strip()
+    
     return json.loads(clean_json)
 
-file_path = 'athardata.json'
-
-# إنشاء الملف لو مش موجود
-if not os.path.exists(file_path):
-    with open(file_path, 'w', encoding='utf-8') as f:
-        json.dump([], f)
+# المسار الحقيقي للملف في بيئة GitHub Actions
+file_path = os.path.join(os.getcwd(), 'athardata.json')
+print(f"📂 مسار الملف المستخدم: {file_path}")
 
 try:
-    # جلب 5 نصائح جديدة
+    # 2. جلب النصائح
+    print("🤖 جاري توليد النصائح من Gemini...")
     new_tips = generate_health_tips(5)
     current_date = datetime.now().strftime("%Y-%m-%d")
+    print(f"✨ تم توليد {len(new_tips)} نصائح بنجاح.")
 
-    # قراءة الملف الحالي
-    with open(file_path, 'r', encoding='utf-8') as f:
-        all_tips = json.load(f)
+    # 3. معالجة الملف
+    all_tips = []
+    if os.path.exists(file_path):
+        print("📖 ملف athardata.json موجود، جاري القراءة...")
+        with open(file_path, 'r', encoding='utf-8') as f:
+            try:
+                all_tips = json.load(f)
+            except:
+                all_tips = []
+    else:
+        print("⚠️ الملف غير موجود، سيتم إنشاؤه.")
 
-    # إضافة التاريخ لكل نصيحة جديدة ووضعها في بداية القائمة
-    for tip in reversed(new_tips): # نعكسهم باش نحافظوا على الترتيب الزمني
+    # 4. دمج البيانات الجديدة في البداية
+    for tip in reversed(new_tips):
         tip['date'] = current_date
         all_tips.insert(0, tip)
 
-    # حفظ الملف (نخزنوا كل شيء، والموقع حيعرض أول 5 بس والأرشيف فيه الباقي)
+    # 5. الحفظ الفعلي والقسري
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(all_tips, f, ensure_ascii=False, indent=2)
     
-    print(f"تم إضافة {len(new_tips)} نصائح جديدة بنجاح!")
+    # تأكيد الحفظ برمجياً
+    if os.path.getsize(file_path) > 0:
+        print(f"✅ تم حفظ الملف بنجاح. الحجم الحالي: {os.path.getsize(file_path)} بايت.")
+    else:
+        print("❌ فشل الحفظ: الملف لا يزال فارغاً!")
 
 except Exception as e:
-    print(f"حدث خطأ: {e}")
+    print(f"💥 حدث خطأ غير متوقع: {e}")
+    
