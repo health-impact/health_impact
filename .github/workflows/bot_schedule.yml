@@ -35,4 +35,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add athardata.json
           git commit -m "تحديث طبي تلقائي 🔬" || echo "لا توجد تغييرات"
-          git push origin master
+          git push origin main
