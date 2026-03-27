@@ -1,68 +1,54 @@
 import json
 import os
 from google import genai
-from google.genai import types
 from datetime import datetime
 import random
 
-# إعداد العميل مع تحديد الإصدار المستقر v1
-client = genai.Client(
-    api_key=os.environ["GEMINI_API_KEY"],
-    http_options={'api_version': 'v1'} # إجبار النظام على v1 بدل v1beta
-)
+# إعداد العميل
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-def generate_health_tips():
-    prompt = (
-        "أعطني 5 نصائح طبية قصيرة جداً ومفيدة للمجتمع الليبي (باللغة العربية). "
-        "ركز على الصحة العامة والميكروبيولوجيا. "
-        "يجب أن يكون الرد بتنسيق JSON Array فقط، كل عنصر يحتوي على 'title' و 'content'."
-    )
-    
+def get_available_model():
+    print("🔍 جاري البحث عن الموديلات المتاحة في حسابك...")
     try:
-        # تجربة موديل Pro كبديل لـ Flash لكسر عقدة الـ 404
+        # استخراج قائمة الموديلات المتاحة لحسابك
+        models = client.models.list()
+        model_names = [m.name for m in models]
+        print(f"📋 الموديلات المتاحة لك هي: {model_names}")
+        
+        # الترتيب المفضل للموديلات
+        preferences = ['models/gemini-1.5-flash', 'models/gemini-1.5-pro', 'models/gemini-pro']
+        for pref in preferences:
+            if pref in model_names:
+                print(f"✅ سيتم استخدام الموديل: {pref}")
+                return pref
+        
+        # لو لم يجد المفضل، يأخذ أول موديل يدعم التوليد
+        return model_names[0] if model_names else None
+    except Exception as e:
+        print(f"❌ فشل جلب القائمة: {e}")
+        return 'gemini-1.5-flash' # محاولة أخيرة افتراضية
+
+def generate_health_tips(model_name):
+    prompt = "أعطني 5 نصائح طبية قصيرة لمجال الميكروبيولوجيا في ليبيا بتنسيق JSON Array فقط."
+    try:
         response = client.models.generate_content(
-            model='gemini-1.5-pro', 
+            model=model_name,
             contents=prompt
         )
-        
         text = response.text.strip()
-        if text.startswith('```json'):
-            text = text[7:-3].strip()
-        elif text.startswith('```'):
-            text = text[3:-3].strip()
-        
-        return json.loads(text)
-    except Exception as e:
-        print(f"❌ خطأ في Gemini: {e}")
-        return None
+        if text.startswith('
+http://googleusercontent.com/immersive_entry_chip/0
+http://googleusercontent.com/immersive_entry_chip/1
 
-file_path = 'athardata.json'
+---
 
-def main():
-    print("🚀 محاولة التوليد باستخدام Gemini 1.5 Pro (v1 stable)...")
-    new_tips = generate_health_tips()
-    
-    if not new_tips:
-        return
+### 🚀 شن حنديروا توة؟
+1. حدث ملف `update_tips.py` بالكود "الذكي" أعلاه.
+2. دير **Run workflow**.
+3. افتح الـ **Logs** وشوف السطر اللي مكتوب فيه: **"📋 الموديلات المتاحة لك هي:"**.
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    for tip in new_tips:
-        tip['date'] = timestamp
-        tip['id'] = f"tip-{random.randint(1000, 9999)}"
+**لو طلعت القائمة "فاضية" []، معناها المشكلة 100% في الـ API Key نفسه (ممكن محتاج تفعيل Billing في Google Cloud حتى لو النسخة مجانية، أو المفتاح expired).**
 
-    archive = []
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                archive = json.load(f)
-        except:
-            archive = []
+**جرب يا دكتور وانسخ لي قائمة الموديلات اللي حتطلعلك في الشاشة السوداء، هادي هي "كلمة السر" اللي حتحل اللغز!** 🔬🌿🚀
 
-    full_data = new_tips + archive
-    with open(file_path, 'w', encoding='utf-8') as f:
-        json.dump(full_data, f, ensure_ascii=False, indent=2)
-    
-    print(f"✅ تم التحديث بنجاح! الإجمالي: {len(full_data)}")
-
-if __name__ == "__main__":
-    main()
+هل فكرت في تجربة مفتاح من حساب Gmail آخر للتأكد من أن المشكلة ليست في إعدادات الحساب الحالي؟
