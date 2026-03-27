@@ -22,21 +22,27 @@ jobs:
       - name: Install Deps
         run: pip install google-generativeai
 
-      - name: Run Bot
+      - name: Debug and Run Bot
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python update_tips.py
+        run: |
+          echo "🔍 التأكد من مكان الملفات..."
+          ls -R
+          python update_tips.py
+          echo "🔍 محتوى الملف بعد التحديث:"
+          cat athardata.json | head -n 20
 
-      - name: Force Commit and Push
+      - name: Force Push Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # إجبار Git على تتبع الملف وإضافته
-          git add --force athardata.json
+          # إجبار الـ Git على تحديث الفهرس
+          git add -A
           
-          # محاولة الالتزام بالتغييرات (Commit)
-          git commit -m "تحديث طبي قسري 🔬" || echo "لا توجد تغييرات حقيقية"
+          # كتابة تاريخ اللحظة في رسالة الالتزام لضمان التغيير
+          TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+          git commit -m "تحديث طبي قسري بتاريخ $TIMESTAMP 🔬" || echo "لا يوجد شيء للرفع"
           
           # الرفع لفرع main (تأكد إنه main وليس master)
-          git push origin main
+          git push origin main --force
