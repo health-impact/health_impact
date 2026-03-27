@@ -1,32 +1,25 @@
 name: Athar Health Bot
-
 on:
   schedule:
-    - cron: '0 */12 * * *' # يعمل كل 12 ساعة تلقائياً
-  workflow_dispatch: # للتشغيل اليدوي وقت ما تحب
-
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # إذن صريح لحفظ الأرشيف
+      contents: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
-   
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Set up Python
+          fetch-depth: 0 # لجلب كل تاريخ الملفات لضمان المقارنة الصحيحة
+
+      - name: Python Setup
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install Deps
         run: pip install google-generativeai
 
       - name: Run Bot
@@ -34,10 +27,18 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python update_tips.py
 
-      - name: Commit and Push
+      - name: Verify and Push
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # إجبار Git على رؤية الملف حتى لو يعتقد أنه لم يتغير
           git add athardata.json
-          git commit -m "إضافة 5 نصائح جديدة للأرشيف 🔬" || echo "لا توجد تغييرات"
-          git push origin main
+          
+          # التحقق من وجود تغييرات حقيقية
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "⚠️ لم يتم اكتشاف أي تغييرات في ملف النصائح!"
+          else
+            git commit -m "تحديث طبي جديد للأرشيف 🔬"
+            git push origin main
+          fi
