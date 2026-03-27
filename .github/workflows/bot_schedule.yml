@@ -8,12 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: # إضافة تصريح صريح للكتابة
-      contents: write
+    permissions:
+      contents: write # تصريح كتابة صريح
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          persist-credentials: true # لضمان بقاء تسجيل الدخول للرفع
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
