@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # لجلب كل تاريخ الملفات لضمان المقارنة الصحيحة
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Python Setup
         uses: actions/setup-python@v5
@@ -27,18 +27,16 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python update_tips.py
 
-      - name: Verify and Push
+      - name: Force Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # إجبار Git على رؤية الملف حتى لو يعتقد أنه لم يتغير
-          git add athardata.json
+          # إجبار Git على تتبع الملف وإضافته
+          git add --force athardata.json
           
-          # التحقق من وجود تغييرات حقيقية
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "⚠️ لم يتم اكتشاف أي تغييرات في ملف النصائح!"
-          else
-            git commit -m "تحديث طبي جديد للأرشيف 🔬"
-            git push origin main
-          fi
+          # محاولة الالتزام بالتغييرات (Commit)
+          git commit -m "تحديث طبي قسري 🔬" || echo "لا توجد تغييرات حقيقية"
+          
+          # الرفع لفرع main (تأكد إنه main وليس master)
+          git push origin main
