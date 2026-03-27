@@ -1,59 +1,222 @@
-منصة متخصصة يشرف عليها <strong>أخصائي في الصحة العامة</strong> (بكالوريوس وطالب ماجستير)، مهتم بالشأن الصحي المحلي والدولي. نعتمد بشكل أساسي على تحديثات <strong>NCDC Libya</strong> و <strong>WHO</strong> لضمان دقة المعلومة وترك أثر إيجابي يدوم في المجتمع.
-            </p>
-        </div>
-    </section>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أثر صحي | Impact Health</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. الخطوط والتنسيق العام */
+        :root { --dark-gray: #1e2022; --main-green: #198754; --light-bg: #fdfdfd; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--light-bg); color: #333; scroll-behavior: smooth; }
 
-    <section class="container my-5" id="articles">
-        <h2 class="section-title">آخر التوعية الصحية</h2>
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card card-custom h-100 p-4">
-                    <div class="card-body">
-                        <span class="badge badge-source mb-3">المصدر: NCDC Libya</span>
-                        <h4 class="fw-bold mb-3">الصحة العامة والوقاية المجتمعية</h4>
-                        <p class="text-muted">إرشادات وقائية مبنية على آخر تحديثات الجهات الرسمية في ليبيا لتعزيز الصحة العامة...</p>
-                        <a href="#" class="btn btn-link text-success p-0 fw-bold text-decoration-none">تكملة المقال <i class="bi bi-arrow-left"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card card-custom h-100 p-4">
-                    <div class="card-body">
-                        <span class="badge badge-source mb-3">المصدر: WHO</span>
-                        <h4 class="fw-bold mb-3">دليل الصحة العالمية</h4>
-                        <p class="text-muted">متابعة لأحدث التوصيات العالمية لتعزيز نمط الحياة الصحي والوقاية من الأمراض...</p>
-                        <a href="#" class="btn btn-link text-success p-0 fw-bold text-decoration-none">تكملة المقال <i class="bi bi-arrow-left"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        /* 2. الهيدر الرمادي الغامق والأزرار اللي تخدم */
+        .header-top { background-color: var(--dark-gray); color: white; padding: 20px 0; border-bottom: 4px solid var(--main-green); position: sticky; top: 0; z-index: 1000; }
+        .nav-box { display: flex; flex-direction: row; gap: 20px; margin-right: auto; }
+        .nav-item-link { color: #bbb; text-decoration: none; font-weight: 500; font-size: 1.1rem; transition: 0.3s; }
+        .nav-item-link:hover { color: var(--main-green); }
+        .brand-section { display: flex; align-items: center; gap: 12px; }
+        .brand-text { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; }
 
-    <section class="py-5 bg-white shadow-sm" id="store">
-        <div class="container text-center">
-            <h2 class="section-title text-start">المتجر</h2>
-            <div class="p-5 border rounded-4 bg-light shadow-inner">
-                <i class="bi bi-cart-plus display-1 text-muted mb-4"></i>
-                <h3 class="fw-bold">المتجر قيد التجهيز</h3>
-                <p class="text-muted fs-5">سيتم قريباً عرض منتجات ومعدات صحية مختارة لخدمتكم.</p>
-                <button class="btn btn-outline-secondary px-4 mt-2" disabled>قريباً</button>
-            </div>
-        </div>
-    </section>
+/* 2. قسم الرئيسية (Hero) - صورة الوقاية المتحركة (Parallax) والخطوط الذكية (Responsive) */
+        .hero { 
+            height: 85vh; /* تقليل الارتفاع قليلاً لضمان ظهور الصورة بالكامل */
+            /* صورة عالمية ترمز للوقاية الشخصية والمجتمعية (أقنعة، قفازات، أدوات وقاية) */
+          background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1600');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            /* تفعيل تأثير Parallax (الصورة تتحرك ببطء خلف النص) */
+            background-attachment: fixed;
+            padding: 20px; /* مسافة داخلية لراحة النص */
+        }
 
-    <footer class="text-center">
+        /* تكبير الخطوط بشكل ذكي يتماشى مع الهاتف (Responsive) */
+        .hero h1 { 
+            font-size: clamp(2.5rem, 8vw, 5.5rem); /* يتغير حجمه تلقائياً حسب الشاشة */
+            font-weight: 900; 
+            margin-bottom: 25px; 
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+            letter-spacing: -2px;
+            line-height: 1.1; /* تقليل المسافة العمودية لتعطي هيبة للعنوان */
+        }
+
+        .hero p { 
+            font-size: clamp(1.2rem, 4vw, 2.6rem); /* خط واضح جداً للمواطن */
+            max-width: 900px; 
+            margin: 0 auto; 
+            line-height: 1.5; 
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        }
+        }
+        }
+        }
+        /* 4. مسافات بين الأقسام */
+        section { padding: 100px 0; }
+
+        /* 5. التوعية الذكية (الكاردات الخمسة) */
+        .updates-container { background: #fff; border-radius: 30px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .tip-card { background: #fff; border-right: 6px solid var(--main-green); border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s; text-align: right; }
+        .tip-card:hover { transform: translateX(-10px); }
+        .source-label { background: #e8f5e9; color: var(--main-green); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; margin-top: 10px; display: inline-block; }
+
+        /* 6. كاردات المتجر */
+        .store-card { border: none; border-radius: 20px; background: white; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: 0.4s; height: 100%; border: 1px solid #f0f0f0; }
+        .store-card:hover { transform: translateY(-15px); border-color: var(--main-green); }
+        .icon-box { margin-bottom: 25px; color: var(--main-green); }
+
+        /* 7. تجميل الذيل (Footer) */
+        .footer { background: var(--dark-gray); color: #888; padding: 80px 0 30px; text-align: center; }
+        .footer h4 { color: white; font-weight: 800; margin-bottom: 20px; }
+        .ai-status { border: 2px solid var(--main-green); border-radius: 20px; padding: 25px; display: inline-flex; flex-direction: column; align-items: center; gap: 15px; color: white; background: rgba(25,135,84,0.1); margin-top: 40px; max-width: 600px; }
+    </style>
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="brand-section">
+                <i class="fas fa-heartbeat fa-2x text-success"></i>
+                <span class="brand-text">IMPACT HEALTH</span>
+            </div>
+            <nav class="nav-box d-none d-md-flex">
+                <a href="#hero" class="nav-item-link">الرئيسية</a>
+                <a href="#about" class="nav-item-link">عن المنصة</a>
+                <a href="#updates" class="nav-item-link">التوعية الذكية</a>
+                <a href="#store" class="nav-item-link">المتجر</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero p-0">
         <div class="container">
-            <p class="mb-1 fw-bold fs-5">جميع الحقوق محفوظة &copy; أثر صحي 2026</p>
-            <p class="text-muted mb-0 small">بإشراف مختص في الصحة العامة | الموقع مؤمن بشهادة SSL</p>
+            <h1>أثر صحي | Impact Health</h1>
+            <p>نحو مجتمع ليبي واعي، بعيداً عن الشائعات وبناءً على الحقائق العلمية.</p>
+        </div>
+    </section>
+
+
+<section id="about" style="padding-top: 160px; padding-bottom: 100px; background-color: #ffffff; position: relative; z-index: 10;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px; text-align: center;">
+        
+        <h2 style="font-size: clamp(2.8rem, 6vw, 4.2rem); color: #219150; margin-bottom: 40px; font-weight: 900; position: relative; display: inline-block; letter-spacing: -1px;">
+            من نحن؟
+            <span style="display: block; width: 100px; height: 5px; background: #219150; margin: 15px auto; border-radius: 10px;"></span>
+        </h2>
+        
+        <div class="about-card" style="background: #ffffff; padding: 55px; border-radius: 25px; box-shadow: 0 15px 45px rgba(39, 174, 96, 0.15); border-right: 18px solid #219150; border-left: 1px solid #e8f5e9; transition: transform 0.3s ease;">
+            
+            <p style="font-size: clamp(1.3rem, 3.5vw, 2.1rem); line-height: 2.1; color: #000000; text-align: justify; direction: rtl; font-weight: 500; margin: 0;">
+                منصة متخصصة يشرف عليها 
+                <strong style="font-weight: 800; color: #000000;">أخصائي صحة عامة وطالب ماجستير</strong>، 
+                تهدف لتقديم محتوى موثوق يعتمد بشكل أساسي على تحديثات 
+                <strong style="font-weight: 800; color: #000000;">WHO</strong> و 
+                <strong style="font-weight: 800; color: #000000;">NCDC</strong> و 
+                <strong style="font-weight: 800; color: #000000;">FDA</strong> 
+                لضمان دقة المعلومة وترك أثر إيجابي يدوم في المجتمع الليبي من مصادر موثوقة.
+            </p>
+            
+        </div>
+
+        <div style="margin-top: 55px; color: #219150; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px;">
+             <span style="border-bottom: 2px solid #219150; padding-bottom: 3px;">أثر صحي</span> | نحو مجتمع ليبي واعي ومحصن
+        </div>
+
+    </div>
+</section>
+
+
+    <section id="updates" style="background-color: #f4f7f6;">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 display-6">التوعية الصحية الذكية</h2>
+            <div class="updates-container">
+                <div id="tips-container">
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">غسل اليدين بالماء والصابون يقلل من انتقال الأمراض المعدية.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">تجنب استخدام المضادات الحيوية بدون استشارة طبية دقيقة.</h5>
+                        <span class="source-label">المصدر: NCDC</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الحفاظ على رطوبة الجسم يعزز من كفاءة الجهاز المناعي.</h5>
+                        <span class="source-label">المصدر: FDA</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">التهوية الجيدة للمختبرات تقلل من الحمل الميكروبي في الهواء.</h5>
+                        <span class="source-label">المصدر: أبحاث ميدانية</span>
+                    </div>
+                    <div class="tip-card">
+                        <h5 class="fw-bold mb-2">الفحص الدوري لمعدل السكر والضغط يقي من المضاعفات المفاجئة.</h5>
+                        <span class="source-label">المصدر: WHO</span>
+                    </div>
+                    </div>
+                <div class="text-center mt-5">
+                    <button class="btn btn-outline-success rounded-pill px-5 py-3 fw-bold">تصفح أرشيف المعلومات الكامل</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="store">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 display-6 text-success">متجر المستلزمات الصحية</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="store-card">
+                        <div class="icon-box"><i class="fas fa-microscope fa-6x"></i></div>
+                        <h3 class="fw-bold mb-3">تجهيزات مخبرية</h3>
+                        <p class="text-muted mb-4">أدوات سحب العينات ومعدات الفحص الميكروبيولوجي الدقيقة.</p>
+                        <span class="badge bg-light text-success border border-success rounded-pill px-4 py-2 fw-bold">قريباً</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="store-card">
+                        <div class="icon-box"><i class="fas fa-user-shield fa-6x text-primary"></i></div>
+                        <h3 class="fw-bold mb-3">أدوات الوقاية</h3>
+                        <p class="text-muted mb-4">أقنعة، قفازات، ومعقمات مطابقة للمواصفات العالمية.</p>
+                        <span class="badge bg-light text-primary border border-primary rounded-pill px-4 py-2 fw-bold">قريباً</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="store-card">
+                        <div class="icon-box"><i class="fas fa-heartbeat fa-6x text-danger"></i></div>
+                        <h3 class="fw-bold mb-3">أجهزة القياس</h3>
+                        <p class="text-muted mb-4">أجهزة قياس الضغط والسكر والأكسجين للاستخدام المنزلي.</p>
+                        <span class="badge bg-light text-danger border border-danger rounded-pill px-4 py-2 fw-bold">قريباً</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <h4>Impact Health | أثر صحي</h4>
+            <p class="mb-2">صمم بكل فخر لدعم الصحة العامة في ليبيا </p>
+            <p class="small">جميع الحقوق محفوظة &copy; 2026</p>
+            <div class="ai-status">
+                <i class="fas fa-robot fa-3x mb-2 text-success"></i>
+                <p class="mb-0 fw-bold">يعمل بالذكاء الاصطناعي تحت إشراف أخصائي ومهتم بالصحة العامة</p>
+                <small class="text-white-50">تحديث تلقائي للمعلومات كل 12 ساعة من مصادر موثوقة</small>
+            </div>
         </div>
     </footer>
 
-    <script>
-        let visits = localStorage.getItem('atharsahhi_visits') || 0;
-        localStorage.setItem('atharsahhi_visits', ++visits);
-        console.log("زياراتك الخاصة لليوم: " + visits);
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+- [ ] 
