@@ -1,48 +1,38 @@
-import json
-import os
-import google.generativeai as genai
-from datetime import datetime
+name: Athar Health Bot
 
-# 1. إعداد الذكاء الاصطناعي
-try:
-    genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    print("✅ تم الاتصال بمفتاح Gemini بنجاح.")
-except Exception as e:
-    print(f"❌ خطأ في إعداد Gemini: {e}")
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
 
-def generate_health_tips(count=5):
-    prompt = f"أعطني قائمة مكونة من {count} نصائح طبية متنوعة لمنصة 'أثر صحي' في ليبيا. التنسيق: JSON فقط عبارة عن Array."
-    response = model.generate_content(prompt)
-    clean_json = response.text.strip()
-    if clean_json.startswith('```json'):
-        clean_json = clean_json[7:-3].strip()
-    elif clean_json.startswith('```'):
-        clean_json = clean_json[3:-3].strip()
-    return json.loads(clean_json)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-file_path = 'athardata.json'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-try:
-    print("🤖 جاري طلب نصائح جديدة...")
-    new_tips = generate_health_tips(5)
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    
-    all_tips = []
-    if os.path.exists(file_path):
-        with open(file_path, 'r', encoding='utf-8') as f:
-            try:
-                all_tips = json.load(f)
-            except:
-                all_tips = []
+      - name: Install dependencies
+        run: pip install google-generativeai
 
-    for tip in reversed(new_tips):
-        tip['date'] = current_date
-        all_tips.insert(0, tip)
+      - name: Run Bot
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python update_tips.py
 
-    with open(file_path, 'w', encoding='utf-8') as f:
-        json.dump(all_tips, f, ensure_ascii=False, indent=2)
-    
-    print(f"✅ تم التحديث! الملف يحتوي الآن على {len(all_tips)} نصيحة.")
-except Exception as e:
-    print(f"💥 حدث خطأ: {e}")
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add athardata.json
+          git commit -m "تحديث طبي تلقائي 🔬" || echo "لا توجد تغييرات"
+          git push origin main
