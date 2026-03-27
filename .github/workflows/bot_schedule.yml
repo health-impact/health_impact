@@ -2,9 +2,8 @@ name: Athar Health Bot
 
 on:
   schedule:
-    - cron: '0 */12 * * *' # كل 12 ساعة
-  workflow_dispatch: # زر لتشغيله يدوياً للتجربة
-
+    - cron: '0 */2 * * *'  # التغيير هنا: الرقم 2 يعني كل ساعتين
+  workflow_dispatch:      # هكي تقدر تشغله يدوياً في أي وقت
 jobs:
   build:
     runs-on: ubuntu-latest
