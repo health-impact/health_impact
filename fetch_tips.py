@@ -1,27 +1,34 @@
-import feedparser
 import json
 from datetime import datetime
 
-# روابط RSS من المصادر الرسمية
-sources = {
-    "WHO": "https://www.who.int/feeds/entity/csr/don/ar/rss.xml",
-    "FDA": "https://www.fda.gov/about-fda/contact-fda/rss-feeds/press-releases/rss.xml",
-    "NCDC": "https://ncdc.gov.ly/rss"  # مثال، لو فيه رابط رسمي
-}
-
-tips = []
-
-for source, url in sources.items():
-    feed = feedparser.parse(url)
-    for entry in feed.entries[:2]:  # ناخذ 2 من كل مصدر
-        tips.append({
-            "title": entry.title,
-            "content": entry.summary,
-            "source": source
-        })
-
-# نخلي بس 5 نصائح
-tips = tips[:5]
+# نصائح تجريبية باش نتأكد إن الموقع يشتغل
+tips = [
+    {
+        "title": "اغسل يديك بانتظام",
+        "content": "غسل اليدين يقلل من انتقال العدوى بنسبة كبيرة.",
+        "source": "WHO"
+    },
+    {
+        "title": "قلل من استهلاك الملح",
+        "content": "الإفراط في الملح يزيد من خطر ارتفاع ضغط الدم.",
+        "source": "FDA"
+    },
+    {
+        "title": "مارس النشاط البدني",
+        "content": "30 دقيقة يوميًا من المشي أو الرياضة تحسن صحة القلب.",
+        "source": "NCDC"
+    },
+    {
+        "title": "اشرب كمية كافية من الماء",
+        "content": "الماء ضروري للحفاظ على وظائف الجسم الحيوية.",
+        "source": "WHO"
+    },
+    {
+        "title": "تجنب التدخين",
+        "content": "التدخين يزيد من خطر أمراض القلب والرئة.",
+        "source": "FDA"
+    }
+]
 
 # نخزنها في ملف JSON
 with open("data/tips/latest.json", "w", encoding="utf-8") as f:
