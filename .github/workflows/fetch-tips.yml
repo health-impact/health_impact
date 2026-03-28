@@ -27,14 +27,23 @@ jobs:
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
-      - name: Print latest.json
+      - name: Debug show files and latest.json
         run: |
-          echo "---- latest.json ----"
+          echo "---- pwd ----"
+          pwd
+          echo "---- ls repo root ----"
+          ls -la
+          echo "---- ls data/tips ----"
+          ls -la data/tips || true
+          echo "---- cat latest.json ----"
           if [ -f data/tips/latest.json ]; then
             cat data/tips/latest.json
           else
             echo "latest.json not found"
           fi
+          echo "---- git status ----"
+          git status --porcelain || true
+
 
       - name: Show saved tips count
         run: |
