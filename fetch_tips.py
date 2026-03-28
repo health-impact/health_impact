@@ -2,7 +2,7 @@ import feedparser
 import json
 from datetime import datetime
 import os
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 sources = {
     "WHO": "https://www.who.int/rss-feeds/news-english.xml",
@@ -10,14 +10,13 @@ sources = {
 }
 
 tips = []
-translator = Translator()
+translator = GoogleTranslator(source='en', target='ar')
 
-# نجلب النصائح من كل مصدر ونترجمها للعربية
 for source, url in sources.items():
     feed = feedparser.parse(url)
-    for entry in feed.entries[:2]:  # ناخذ 2 من كل مصدر
-        title_ar = translator.translate(entry.title, dest="ar").text
-        content_ar = translator.translate(entry.summary, dest="ar").text
+    for entry in feed.entries[:2]:
+        title_ar = translator.translate(entry.title)
+        content_ar = translator.translate(entry.summary)
 
         tips.append({
             "title": title_ar,
@@ -25,19 +24,16 @@ for source, url in sources.items():
             "source": source
         })
 
-# نخلي بس 5 نصائح
 tips = tips[:5]
 
 latest_path = "data/tips/latest.json"
 
-# نقارن مع النصائح القديمة لو موجودة
 if os.path.exists(latest_path):
     with open(latest_path, "r", encoding="utf-8") as f:
         old_tips = json.load(f)
 else:
     old_tips = []
 
-# لو فيه جديد نكتبها
 if tips and tips != old_tips:
     with open(latest_path, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
