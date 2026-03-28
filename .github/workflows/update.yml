@@ -1,0 +1,38 @@
+name: Auto Update Health Tips
+
+on:
+  schedule:
+    # يعمل كل 12 ساعة تلقائياً (الساعة 00:00 والساعة 12:00 بتوقيت سيرفرات جيتهاب)
+    - cron: '0 */12 * * *'
+  workflow_dispatch: # يتيح لك تشغيله يدوياً متى شئت للضغط على زر التشغيل
+
+permissions:
+  contents: write
+
+jobs:
+  update-tips:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install google-generativeai
+
+      - name: Run AI Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python update_tips.py
+
+      - name: Commit and Push Archive
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add athardata.json
+          git commit -m "تحديث تلقائي: إضافة نصائح صحة عامة جديدة للأرشيف" || echo "لا توجد تغييرات"
+          git push
