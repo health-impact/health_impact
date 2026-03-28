@@ -30,18 +30,9 @@ jobs:
       - name: Show saved tips count
         run: |
           if [ -f data/tips/latest.json ]; then
-            python - <<'PY'
-          import json, sys
-          try:
-          with open("data/tips/latest.json", encoding="utf-8") as f:
-          tips = json.load(f)
-          print(f"✅ تم حفظ {len(tips)} نصائح")
-          except Exception as e:
-          print("⚠️ خطأ عند قراءة latest.json:", e)
-          sys.exit(1)
-          PY
+            python -c "import json; f=open('data/tips/latest.json', encoding='utf-8'); tips=json.load(f); print('✅ تم حفظ {} نصائح'.format(len(tips)))"
           else
-          echo "⚠️ latest.json غير موجود"
+            echo "⚠️ latest.json غير موجود"
           fi
 
       - name: Configure git
@@ -57,9 +48,8 @@ jobs:
         run: |
           set -e
           if git diff --cached --quiet; then
-          echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
+            echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
           else
-           git commit -m "Update tips"
-           git push
+            git commit -m "Update tips"
+            git push
           fi
-                                                                    
