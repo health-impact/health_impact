@@ -2,7 +2,7 @@ name: Fetch Health Tips
 
 on:
   schedule:
-    - cron: "0 7,19 * * *"   # يشتغل الساعة 9 صباحًا و9 مساءً بتوقيت ليبيا (UTC+2)
+    - cron: "0 7,19 * * *"
   workflow_dispatch:
 
 jobs:
@@ -27,13 +27,38 @@ jobs:
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
-      - name: Commit changes
+      - name: Show saved tips count
+        run: |
+          if [ -f data/tips/latest.json ]; then
+            python - <<'PY'
+import json, sys
+try:
+    with open("data/tips/latest.json", encoding="utf-8") as f:
+        tips = json.load(f)
+    print(f"✅ تم حفظ {len(tips)} نصائح")
+except Exception as e:
+    print("⚠️ خطأ عند قراءة latest.json:", e)
+    sys.exit(1)
+PY
+          else
+            echo "⚠️ latest.json غير موجود"
+          fi
+
+      - name: Configure git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add data/tips/*.json
-          if ! git diff --cached --quiet; then
+
+      - name: Stage files
+        run: git add data/tips/*.json || true
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          set -e
+          if git diff --cached --quiet; then
+            echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
+          else
             git commit -m "Update tips"
             git push
-          else
-            echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
+          fi
