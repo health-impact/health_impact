@@ -192,5 +192,47 @@
             </div>
         </div>
     </footer>
+        ...
+    <footer class="footer">
+        <!-- محتوى الفوتر -->
+    </footer>
+
+    <!-- سكربت النصائح -->
+    <script>
+    async function loadTips() {
+        try {
+            const response = await fetch('data/tips/latest.json'); // ملف يحدّثه البوت
+            const tips = await response.json();
+
+            const tipsContainer = document.getElementById('current-tips-list');
+            tipsContainer.innerHTML = '';
+
+            tips.forEach(tip => {
+                const card = document.createElement('div');
+                card.className = 'tip-card';
+                card.innerHTML = `
+                    <h5>${tip.title}</h5>
+                    <p>${tip.content}</p>
+                    <span class="source-label">${tip.source}</span>
+                `;
+                tipsContainer.appendChild(card);
+            });
+        } catch (error) {
+            document.getElementById('current-tips-list').innerHTML =
+                '<p class="text-center text-danger">تعذر تحميل النصائح حالياً</p>';
+        }
+    }
+
+    function toggleArchive() {
+        const archive = document.getElementById('archive-tips-list');
+        archive.style.display = archive.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // تحميل النصائح عند فتح الصفحة
+    loadTips();
+    </script>
+</body>
+</html>
+
 </body>
 </html>
