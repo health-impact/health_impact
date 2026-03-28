@@ -12,15 +12,29 @@ sources = {
 tips = []
 translator = GoogleTranslator(source='en', target='ar')
 
+def simplify_tip(text):
+    # تبسيط النصيحة للمواطنين
+    if "vaccine" in text.lower():
+        return "احرص على أخذ اللقاحات الموصى بها لحماية نفسك وعائلتك."
+    elif "hand" in text.lower():
+        return "اغسل يديك جيدًا بالماء والصابون لمدة 20 ثانية."
+    elif "food" in text.lower() or "nutrition" in text.lower():
+        return "تناول وجبات صحية ومتوازنة لدعم جهاز المناعة."
+    elif "exercise" in text.lower():
+        return "مارس الرياضة يوميًا ولو نصف ساعة."
+    else:
+        # لو النص مش واضح، نترجمه ونخليه كما هو
+        return translator.translate(text)
+
 for source, url in sources.items():
     feed = feedparser.parse(url)
     for entry in feed.entries[:5]:
-        title_ar = translator.translate(entry.title)
         content_ar = translator.translate(entry.summary)
+        tip_ar = simplify_tip(entry.summary)
 
         tips.append({
-            "title": title_ar,
-            "content": content_ar,
+            "title": translator.translate(entry.title),
+            "content": tip_ar,
             "source": source
         })
 
@@ -42,6 +56,6 @@ if tips and tips != old_tips:
     with open(archive_name, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
 
-    print("✅ نصائح جديدة تم حفظها بالعربية")
+    print("✅ نصائح جديدة مبسطة للمواطنين تم حفظها")
 else:
     print("ℹ️ لا توجد نصائح جديدة، لم يتم التحديث")
