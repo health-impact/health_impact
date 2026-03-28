@@ -27,6 +27,15 @@ jobs:
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
+      - name: Print latest.json
+        run: |
+          echo "---- latest.json ----"
+          if [ -f data/tips/latest.json ]; then
+            cat data/tips/latest.json
+          else
+            echo "latest.json not found"
+          fi
+
       - name: Show saved tips count
         run: |
           if [ -f data/tips/latest.json ]; then
