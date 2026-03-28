@@ -13,7 +13,6 @@ tips = []
 translator = GoogleTranslator(source='en', target='ar')
 
 def safe_translate(text, chunk_size=4000):
-    # نقسم النص الطويل إلى أجزاء صغيرة ونترجم كل جزء
     chunks = [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
     translated_chunks = [translator.translate(chunk) for chunk in chunks]
     return " ".join(translated_chunks)
@@ -35,7 +34,7 @@ def simplify_tip(text):
 
 for source, url in sources.items():
     feed = feedparser.parse(url)
-    for entry in feed.entries[:5]:  # ناخذ أكثر لضمان 5 نصائح
+    for entry in feed.entries[:5]:
         tip_ar = simplify_tip(entry.summary)
         tips.append({
             "title": safe_translate(entry.title),
@@ -43,19 +42,28 @@ for source, url in sources.items():
             "source": source
         })
 
+# لو النصائح أقل من 5 أو مش مناسبة، نضيف نصائح جاهزة للمواطن الليبي
+if len(tips) < 5:
+    fallback_tips = [
+        {"title": "اشرب ماء نظيف", "content": "اشرب ماء نظيف يوميًا لتجنب الأمراض المعوية.", "source": "Local"},
+        {"title": "غسل الخضروات", "content": "اغسل الخضروات والفواكه جيدًا قبل الأكل.", "source": "Local"},
+        {"title": "التطعيمات للأطفال", "content": "تأكد من حصول أطفالك على التطعيمات الأساسية في مواعيدها.", "source": "Local"},
+        {"title": "النظافة الشخصية", "content": "اغسل يديك بانتظام خاصة قبل الأكل وبعد استخدام المرحاض.", "source": "Local"},
+        {"title": "التغذية السليمة", "content": "قلل من استهلاك الملح والزيوت لتجنب ارتفاع ضغط الدم.", "source": "Local"}
+    ]
+    tips.extend(fallback_tips)
+
 # نخلي بس 5 نصائح نهائية
 tips = tips[:5]
 
 latest_path = "data/tips/latest.json"
 
-# نقارن مع النصائح القديمة لو موجودة
 if os.path.exists(latest_path):
     with open(latest_path, "r", encoding="utf-8") as f:
         old_tips = json.load(f)
 else:
     old_tips = []
 
-# لو فيه جديد نكتبها + أرشفة
 if tips and tips != old_tips:
     with open(latest_path, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
@@ -64,6 +72,6 @@ if tips and tips != old_tips:
     with open(archive_name, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
 
-    print("✅ نصائح جديدة مبسطة للمواطنين تم حفظها مع أرشفة")
+    print("✅ نصائح جديدة مبسطة للمواطن الليبي تم حفظها مع أرشفة")
 else:
     print("ℹ️ لا توجد نصائح جديدة، لم يتم التحديث")
