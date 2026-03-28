@@ -1,34 +1,8 @@
-name: Athar Health Bot
-on:
-  schedule:
-    - cron: '0 */12 * * *'
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+- name: Install Deps
+        run: pip install google-generativeai
 
-      - name: Python Setup
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+**لماذا قمنا بهذا؟**
+1. **المجانية:** موديل `gemini-pro` هو الأكثر استقراراً في الحسابات المجانية.
+2. **التوافق:** المكتبة `google-generativeai` هي النسخة الرسمية والمستقرة التي لا تطلب إعدادات دفع معقدة.
 
-      - name: Install Library
-        run: pip install google-genai
-
-      - name: Run Bot
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python update_tips.py
-
-      - name: Commit and Push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add athardata.json
-          git commit -m "تحديث طبي للأرشيف 🔬" || echo "No changes"
-          git push origin main
+**جرب الآن يا دكتور، وبإذن الله سيعمل البوت وتظهر النصائح في موقعك "أثر صحي" فوراً!** 🔬🌿🚀
