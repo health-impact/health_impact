@@ -2,9 +2,8 @@ name: Auto Update Health Tips
 
 on:
   schedule:
-    # يشتغل تلقائياً كل 12 ساعة
     - cron: '0 */12 * * *'
-  workflow_dispatch: # زر التشغيل اليدوي
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -33,8 +32,11 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add athardata.json
-          # إذا مفيش تغييرات مش حيعطي خطأ
-          git commit -m "تحديث تلقائي: نصائح صحية جديدة" || echo "No changes to commit"
-          # دفع التغييرات للفرع الرئيسي مباشرة
-          git push origin HEAD:main --force
+          if [ -f athardata.json ]; then
+            git add athardata.json
+            git commit -m "تحديث تلقائي: أرشيف النصائح" || echo "No changes"
+            git push origin HEAD:main --force
+          else
+            echo "❌ الملف لم يصنع بعد"
+            exit 1
+          fi
