@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install feedparser
           pip install deep-translator
-      
+
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
@@ -32,5 +32,8 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add data/tips/*.json
-          git commit -m "Update tips"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Update tips"
+            git push
+          else
+            echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
