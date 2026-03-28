@@ -2,31 +2,35 @@ name: Fetch Health Tips
 
 on:
   schedule:
-    - cron: "0 7,19 * * *"  # يشتغل الساعة 9 صباحًا و9 مساءً بتوقيت ليبيا (UTC+2)
-  workflow_dispatch:  # تشغيل يدوي
+    - cron: "0 7,19 * * *"   # يشتغل الساعة 9 صباحًا و9 مساءً بتوقيت ليبيا (UTC+2)
+  workflow_dispatch:
 
 jobs:
-  update-tips:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
+          python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install feedparser
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser
+          pip install googletrans==4.0.0-rc1
 
-      - name: Run script
+      - name: Run fetch_tips.py
         run: python fetch_tips.py
 
       - name: Commit changes
         run: |
           git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add data/tips/
-          git commit -m "Update health tips"
+          git config --global user.email "github-actions@github.com"
+          git add data/tips/*.json
+          git commit -m "Update tips"
           git push
