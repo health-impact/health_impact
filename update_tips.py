@@ -70,5 +70,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-- name: Install Dependencies
-        run: pip install google-genai
