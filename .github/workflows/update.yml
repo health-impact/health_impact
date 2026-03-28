@@ -22,7 +22,8 @@ jobs:
           python-version: '3.x'
 
       - name: Install Dependencies
-        run: pip install google-generativeai
+        run: pip install google-genai
+    
 
       - name: Run AI Script
         env:
