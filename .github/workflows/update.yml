@@ -2,9 +2,9 @@ name: Auto Update Health Tips
 
 on:
   schedule:
-    # يعمل كل 12 ساعة تلقائياً (الساعة 00:00 والساعة 12:00 بتوقيت سيرفرات جيتهاب)
+    # يشتغل تلقائياً كل 12 ساعة
     - cron: '0 */12 * * *'
-  workflow_dispatch: # يتيح لك تشغيله يدوياً متى شئت للضغط على زر التشغيل
+  workflow_dispatch: # زر التشغيل اليدوي
 
 permissions:
   contents: write
@@ -23,7 +23,6 @@ jobs:
 
       - name: Install Dependencies
         run: pip install google-genai
-    
 
       - name: Run AI Script
         env:
@@ -34,6 +33,8 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add athardata.json
-          git commit -m "تحديث تلقائي: إضافة نصائح صحة عامة جديدة للأرشيف" || echo "لا توجد تغييرات"
-          git push
+          if [ -f athardata.json ]; then
+            git add athardata.json
+            git commit -m "تحديث تلقائي: نصائح صحية جديدة" || echo "No changes"
+            git push
+          fi
