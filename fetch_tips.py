@@ -14,7 +14,7 @@ translator = GoogleTranslator(source='en', target='ar')
 
 for source, url in sources.items():
     feed = feedparser.parse(url)
-    for entry in feed.entries[:2]:
+    for entry in feed.entries[:5]:
         title_ar = translator.translate(entry.title)
         content_ar = translator.translate(entry.summary)
 
