@@ -148,6 +148,39 @@
         </div>
     </section>
 
+<script>
+  async function loadArchive() {
+    const container = document.getElementById('archive');
+    container.innerHTML = '<h2>الأرشيف</h2>';
+
+    // هنا نفترض إن ملفات الأرشيف كلها موجودة في مجلد data/tips
+    // نجيب قائمة الملفات باستخدام fetch لمجلد المستودع (GitHub Pages يعرضها لو مرفوعة)
+    // أو نكتبها يدوياً لو مش مدعوم
+
+    const archiveFiles = [
+      "archive-2026-03-28.json",
+      "archive-2026-03-29.json",
+      "archive-2026-03-30.json"
+      // زيد الملفات حسب الموجود عندك
+    ];
+
+    for (const file of archiveFiles) {
+      const res = await fetch(`data/tips/${file}`);
+      const tips = await res.json();
+      container.innerHTML += `<h3>نصائح يوم ${file.replace('archive-','').replace('.json','')}</h3>`;
+      tips.forEach(tip => {
+        container.innerHTML += `
+          <div class="tip">
+            <div class="category">${tip.category}</div>
+            <div>${tip.content}</div>
+            <div class="source">المصدر: ${tip.source}</div>
+          </div>
+        `;
+      });
+    }
+  }
+</script>
+    
     <section id="store">
         <div class="container px-4">
             <h2 class="text-center fw-bold mb-5 text-success">متجر المستلزمات</h2>
