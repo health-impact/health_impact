@@ -2,8 +2,8 @@ name: Fetch Health Tips
 
 on:
   schedule:
-    - cron: "0 7,19 * * *"
-  workflow_dispatch:
+    - cron: "0 */12 * * *"   # يشتغل كل 12 ساعة
+  workflow_dispatch:          # تقدر تشغله يدوي من تبويب Actions
 
 jobs:
   build:
@@ -16,58 +16,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser
-          pip install deep-translator
+          pip install feedparser deep-translator
 
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
       - name: Debug show files and latest.json
         run: |
-          echo "---- pwd ----"
-          pwd
-          echo "---- ls repo root ----"
-          ls -la
-          echo "---- ls data/tips ----"
-          ls -la data/tips || true
-          echo "---- cat latest.json ----"
-          if [ -f data/tips/latest.json ]; then
-            cat data/tips/latest.json
-          else
-            echo "latest.json not found"
-          fi
-          echo "---- git status ----"
-          git status --porcelain || true
-
-
-      - name: Show saved tips count
-        run: |
-          if [ -f data/tips/latest.json ]; then
-            python -c "import json; f=open('data/tips/latest.json', encoding='utf-8'); tips=json.load(f); print('✅ تم حفظ {} نصائح'.format(len(tips)))"
-          else
-            echo "⚠️ latest.json غير موجود"
-          fi
-
-      - name: Configure git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-      - name: Stage files
-        run: git add data/tips/*.json || true
-
-      - name: Commit and push if changed
-        shell: bash
-        run: |
-          set -e
-          if git diff --cached --quiet; then
-            echo "ℹ️ لا توجد تغييرات جديدة، ما فيش commit"
-          else
-            git commit -m "Update tips"
-            git push
-          fi
+          ls -la data/tips
+          cat data/tips/latest.json
