@@ -19,6 +19,15 @@ CATEGORIES = {
     "النظافة": ["hygiene", "clean", "sanitation"]
 }
 
+# قائمة fallback متنوعة
+FALLBACK_TIPS = [
+    ("التغذية", "Fallback", "Eat more fruits and vegetables", "تناول المزيد من الفواكه والخضروات"),
+    ("الصحة النفسية", "Fallback", "Take short breaks to relax", "خذ فترات راحة قصيرة للاسترخاء"),
+    ("الوقاية", "Fallback", "Wash your hands regularly", "اغسل يديك بانتظام"),
+    ("التطعيم", "Fallback", "Keep your vaccinations up to date", "حافظ على تحديث تطعيماتك"),
+    ("النظافة", "Fallback", "Maintain clean surroundings", "حافظ على نظافة البيئة من حولك")
+]
+
 def classify_tip(text):
     text_lower = text.lower()
     for category, keywords in CATEGORIES.items():
@@ -53,17 +62,19 @@ def main():
         if len(tips) >= 5:
             break
 
-    # لو ما وصلناش ٥ نصائح، نكمل بنصائح ثابتة ونطبع رسالة واضحة
+    # لو ما وصلناش ٥ نصائح، نكمل من قائمة fallback
     if len(tips) < 5:
         print("⚠️ لم يتم العثور على ٥ نصائح من المصادر، سيتم استخدام نصائح جاهزة (fallback).")
-    while len(tips) < 5:
-        fallback = {
-            "category": "عام",
-            "source": "Fallback",
-            "original": "Stay hydrated and drink enough water daily",
-            "content": "احرص على شرب كمية كافية من الماء يومياً"
-        }
-        tips.append(fallback)
+    i = 0
+    while len(tips) < 5 and i < len(FALLBACK_TIPS):
+        cat, src, orig, cont = FALLBACK_TIPS[i]
+        tips.append({
+            "category": cat,
+            "source": src,
+            "original": orig,
+            "content": cont
+        })
+        i += 1
 
     os.makedirs("data/tips", exist_ok=True)
     latest_path = "data/tips/latest.json"
