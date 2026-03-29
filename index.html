@@ -172,10 +172,24 @@
         container.innerHTML += `
           <div class="tip">
            <div class="tip">
-  <div class="category">${tip.category}</div>
-  <div class="source">🌍 المصدر: ${tip.source}</div>
-  <div>${tip.content}</div>
-</div>
+  function getSourceIcon(source) {
+  switch(source) {
+    case "WHO": return "🌍";
+    case "CDC": return "🛡️";
+    case "UNICEF": return "👶";
+    case "Fallback": return "💡";
+    default: return "ℹ️";
+  }
+}
+
+container.innerHTML += `
+  <div class="tip">
+    <div class="category">${tip.category}</div>
+    <div class="source">${getSourceIcon(tip.source)} المصدر: ${tip.source}</div>
+    <div>${tip.content}</div>
+  </div>
+`;
+
 
         `;
       });
