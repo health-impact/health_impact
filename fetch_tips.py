@@ -80,8 +80,22 @@ def main():
     latest_path = "data/tips/latest.json"
     archive_path = f"data/tips/archive-{datetime.now().strftime('%Y-%m-%d')}.json"
 
-    with open(latest_path, "w", encoding="utf-8") as f:
+        with open(latest_path, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
+
+    with open(archive_path, "w", encoding="utf-8") as f:
+        json.dump(tips, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ كتبت {latest_path} وعدد النصائح {len(tips)}")
+    print(f"✅ أرشفت في {archive_path}")
+
+    # ملخص المصادر
+    sources_used = [tip["source"] for tip in tips]
+    print("📊 ملخص المصادر المستعملة:")
+    for src in set(sources_used):
+        count = sources_used.count(src)
+        print(f"{src}: {count} نصيحة/نصائح")
+
 
     with open(archive_path, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
