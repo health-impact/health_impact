@@ -60,7 +60,6 @@ def main():
                 }
                 tips.append(tip)
                 seen.add(simplified)
-                # طباعة للتأكد من التصنيف
                 print(f"📝 نصيحة: {tip['original']} | التصنيف: {tip['category']} | المصدر: {tip['source']}")
             if len(tips) >= 5:
                 break
@@ -80,7 +79,6 @@ def main():
             "content": cont
         }
         tips.append(tip)
-        # طباعة للتأكد من التصنيف
         print(f"📝 نصيحة (fallback): {tip['original']} | التصنيف: {tip['category']} | المصدر: {tip['source']}")
         i += 1
 
