@@ -172,7 +172,7 @@
         container.innerHTML += `
           <div class="tip">
            <div class="tip">
-  function getSourceIcon(source) {
+ function getSourceIcon(source) {
   switch(source) {
     case "WHO": return "🌍";
     case "CDC": return "🛡️";
@@ -182,13 +182,40 @@
   }
 }
 
-container.innerHTML += `
-  <div class="tip">
-    <div class="category">${tip.category}</div>
-    <div class="source">${getSourceIcon(tip.source)} المصدر: ${tip.source}</div>
-    <div>${tip.content}</div>
-  </div>
+async function loadLatest() {
+  try {
+    const res = await fetch('data/tips/latest.json');
+    const tips = await res.json();
+    const container = document.getElementById('latest');
+    container.innerHTML = '';
+    tips.forEach(tip => {
+      container.innerHTML += `
+        <div class="tip">
+          <div class="category">${tip.category}</div>
+          <div class="source">${getSourceIcon(tip.source)} المصدر: ${tip.source}</div>
+          <div>${tip.content}</div>
+        </div>
+      `;
+    });
+  } catch (err) {
+    console.error("خطأ في تحميل النصائح:", err);
+  }
+}
+
+loadLatest();
+
 `;
+.category {
+  font-weight: bold;
+  color: #27ae60; /* أخضر للتصنيف */
+}
+
+.source {
+  font-size: 0.9em;
+  color: #2980b9; /* أزرق للمصدر */
+  margin-top: 5px;
+  font-weight: bold;
+}
 
 
         `;
