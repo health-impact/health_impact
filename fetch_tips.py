@@ -52,13 +52,16 @@ def main():
             simplified = text.strip().split(".")[0]
             if simplified not in seen:
                 translated = translate(simplified)
-                tips.append({
+                tip = {
                     "category": category,
                     "source": source_name,
                     "original": simplified,
                     "content": translated
-                })
+                }
+                tips.append(tip)
                 seen.add(simplified)
+                # طباعة للتأكد من التصنيف
+                print(f"📝 نصيحة: {tip['original']} | التصنيف: {tip['category']} | المصدر: {tip['source']}")
             if len(tips) >= 5:
                 break
         if len(tips) >= 5:
@@ -70,12 +73,15 @@ def main():
     i = 0
     while len(tips) < 5 and i < len(FALLBACK_TIPS):
         cat, src, orig, cont = FALLBACK_TIPS[i]
-        tips.append({
+        tip = {
             "category": cat,
             "source": src,
             "original": orig,
             "content": cont
-        })
+        }
+        tips.append(tip)
+        # طباعة للتأكد من التصنيف
+        print(f"📝 نصيحة (fallback): {tip['original']} | التصنيف: {tip['category']} | المصدر: {tip['source']}")
         i += 1
 
     # كتابة الملفات
