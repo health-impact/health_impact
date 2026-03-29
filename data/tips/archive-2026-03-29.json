@@ -1,32 +1,32 @@
 [
   {
-    "category": "عام",
+    "category": "التغذية",
     "source": "Fallback",
-    "original": "Stay hydrated and drink enough water daily",
-    "content": "احرص على شرب كمية كافية من الماء يومياً"
+    "original": "Eat more fruits and vegetables",
+    "content": "تناول المزيد من الفواكه والخضروات"
   },
   {
-    "category": "عام",
+    "category": "الصحة النفسية",
     "source": "Fallback",
-    "original": "Stay hydrated and drink enough water daily",
-    "content": "احرص على شرب كمية كافية من الماء يومياً"
+    "original": "Take short breaks to relax",
+    "content": "خذ فترات راحة قصيرة للاسترخاء"
   },
   {
-    "category": "عام",
+    "category": "الوقاية",
     "source": "Fallback",
-    "original": "Stay hydrated and drink enough water daily",
-    "content": "احرص على شرب كمية كافية من الماء يومياً"
+    "original": "Wash your hands regularly",
+    "content": "اغسل يديك بانتظام"
   },
   {
-    "category": "عام",
+    "category": "التطعيم",
     "source": "Fallback",
-    "original": "Stay hydrated and drink enough water daily",
-    "content": "احرص على شرب كمية كافية من الماء يومياً"
+    "original": "Keep your vaccinations up to date",
+    "content": "حافظ على تحديث تطعيماتك"
   },
   {
-    "category": "عام",
+    "category": "النظافة",
     "source": "Fallback",
-    "original": "Stay hydrated and drink enough water daily",
-    "content": "احرص على شرب كمية كافية من الماء يومياً"
+    "original": "Maintain clean surroundings",
+    "content": "حافظ على نظافة البيئة من حولك"
   }
 ]
