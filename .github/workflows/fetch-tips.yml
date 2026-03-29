@@ -31,6 +31,19 @@ jobs:
           echo "📄 محتوى ملف latest.json:"
           cat data/tips/latest.json
 
+      - name: Show tips count by category
+        run: |
+          echo "📊 عدد النصائح حسب التصنيف:"
+          python - << 'EOF'
+          import json
+          from collections import Counter
+          with open("data/tips/latest.json", encoding="utf-8") as f:
+              tips = json.load(f)
+          counts = Counter([tip["category"] for tip in tips])
+          for cat, count in counts.items():
+              print(f"{cat}: {count}")
+          EOF
+
       - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
