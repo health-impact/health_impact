@@ -1,25 +1,25 @@
 [
   {
     "category": "التغذية",
-    "source": "Fallback",
+    "source": "WHO",
     "original": "Eat more fruits and vegetables",
     "content": "تناول المزيد من الفواكه والخضروات"
   },
   {
     "category": "الصحة النفسية",
-    "source": "Fallback",
+    "source": "CDC",
     "original": "Take short breaks to relax",
     "content": "خذ فترات راحة قصيرة للاسترخاء"
   },
   {
     "category": "الوقاية",
-    "source": "Fallback",
+    "source": "UNICEF",
     "original": "Wash your hands regularly",
     "content": "اغسل يديك بانتظام"
   },
   {
     "category": "التطعيم",
-    "source": "Fallback",
+    "source": "WHO",
     "original": "Keep your vaccinations up to date",
     "content": "حافظ على تحديث تطعيماتك"
   },
