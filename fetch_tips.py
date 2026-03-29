@@ -3,6 +3,7 @@ from deep_translator import GoogleTranslator
 import json
 import os
 from datetime import datetime
+from collections import Counter
 
 # مصادر صحية موثوقة
 SOURCES = {
@@ -42,6 +43,7 @@ def main():
     tips = []
     seen = set()
 
+    # جلب النصائح من المصادر
     for source_name, url in SOURCES.items():
         feed = feedparser.parse(url)
         for entry in feed.entries:
@@ -76,11 +78,12 @@ def main():
         })
         i += 1
 
+    # كتابة الملفات
     os.makedirs("data/tips", exist_ok=True)
     latest_path = "data/tips/latest.json"
     archive_path = f"data/tips/archive-{datetime.now().strftime('%Y-%m-%d')}.json"
 
-        with open(latest_path, "w", encoding="utf-8") as f:
+    with open(latest_path, "w", encoding="utf-8") as f:
         json.dump(tips, f, ensure_ascii=False, indent=2)
 
     with open(archive_path, "w", encoding="utf-8") as f:
@@ -88,6 +91,12 @@ def main():
 
     print(f"✅ كتبت {latest_path} وعدد النصائح {len(tips)}")
     print(f"✅ أرشفت في {archive_path}")
+
+    # ملخص التصنيفات
+    cat_counts = Counter([tip["category"] for tip in tips])
+    print("📊 عدد النصائح حسب التصنيف:")
+    for cat, count in cat_counts.items():
+        print(f"{cat}: {count}")
 
     # ملخص المصادر
     sources_used = [tip["source"] for tip in tips]
@@ -95,13 +104,6 @@ def main():
     for src in set(sources_used):
         count = sources_used.count(src)
         print(f"{src}: {count} نصيحة/نصائح")
-
-
-    with open(archive_path, "w", encoding="utf-8") as f:
-        json.dump(tips, f, ensure_ascii=False, indent=2)
-
-    print(f"✅ كتبت {latest_path} وعدد النصائح {len(tips)}")
-    print(f"✅ أرشفت في {archive_path}")
 
 if __name__ == "__main__":
     main()
