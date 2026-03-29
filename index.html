@@ -171,10 +171,12 @@
       tips.forEach(tip => {
         container.innerHTML += `
           <div class="tip">
-            <div class="category">${tip.category}</div>
-            <div>${tip.content}</div>
-            <div class="source">المصدر: ${tip.source}</div>
-          </div>
+           <div class="tip">
+  <div class="category">${tip.category}</div>
+  <div class="source">🌍 المصدر: ${tip.source}</div>
+  <div>${tip.content}</div>
+</div>
+
         `;
       });
     }
