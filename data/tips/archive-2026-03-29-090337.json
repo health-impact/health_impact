@@ -1,0 +1,46 @@
+[
+  {
+    "title": "توصيات بشأن تركيبة لقاح الأنفلونزا لموسم نصف الكرة الشمالي 2026-2027",
+    "content": "أعلنت منظمة الصحة العالمية (WHO) اليوم عن توصيات بشأن التركيب الفيروسي للقاحات الأنفلونزا (أو \"الأنفلونزا\") لموسم الأنفلونزا 2026-2027 في نصف الكرة الشمالي.",
+    "source": "WHO",
+    "meta": {
+      "reason": "accepted_sentence",
+      "preview": "Recommendations for influenza vaccine composition for the 2026-2027 northern hemisphere season The World Health Organization (WHO) today announced recommendations for the viral composition of influenz"
+    }
+  },
+  {
+    "title": "أصبحت الدنمارك أول دولة في الاتحاد الأوروبي تقضي على انتقال فيروس نقص المناعة البشرية (HIV) ومرض الزهري من الأم إلى الطفل",
+    "content": "منحت منظمة الصحة العالمية الدنمارك القدرة على القضاء على انتقال فيروس نقص المناعة البشرية والزهري من الأم إلى الطفل، اعترافًا بالتزام البلاد المستمر بضمان ولادة كل طفل خاليًا من هذه العدوى.",
+    "source": "WHO",
+    "meta": {
+      "reason": "accepted_sentence",
+      "preview": "Denmark becomes first country in the European Union to eliminate mother-to-child transmission of HIV and syphilis The World Health Organization (WHO) has certified Denmark for the elimination of mothe"
+    }
+  },
+  {
+    "title": "المدير العام لمنظمة الصحة العالمية يزور الأردن للاعتراف بالتعاون القوي في تقديم النظام الصحي والإغاثة في حالات الطوارئ وتعزيز الصحة العقلية",
+    "content": "اختتم اليوم المدير العام لمنظمة الصحة العالمية، الدكتور تيدروس أدهانوم غيبريسوس، اليوم الأول من زيارته الرسمية التي استغرقت يومين إلى المملكة الأردنية الهاشمية، مؤكدا الشراكة القوية بين منظمة الصحة العالمية والأردن في مجالات التغطية الصحية الشاملة والصحة النفسية والعمل الصحي الإنساني.",
+    "source": "WHO",
+    "meta": {
+      "reason": "accepted_sentence",
+      "preview": "WHO Director-General visits Jordan to recognize strong collaboration on health system delivery, emergency relief and advancing mental health The Director-General of the World Health Organization, Dr T"
+    }
+  },
+  {
+    "title": "منظمة الصحة العالمية تؤكد القضاء على التراخوما كمشكلة صحية عامة في ليبيا",
+    "content": "إن هذا الإنجاز الذي تم تحقيقه بشق الأنفس يحمي الأجيال القادمة من العمى الذي يمكن الوقاية منه، ويقدم تذكيرا قويا بأن البلدان قادرة على التغلب على أمراض المناطق المدارية المهملة على الرغم من التحديات المستمرة.",
+    "source": "WHO",
+    "meta": {
+      "reason": "accepted_sentence",
+      "preview": "WHO validates elimination of trachoma as a public health problem in Libya WHO today announced that Libya has eliminated trachoma as a public health problem, a landmark victory for public health in WHO"
+    }
+  },
+  {
+    "title": "اشرب ماء نظيف",
+    "content": "اشرب ماء نظيف يوميًا لتجنب الأمراض المعوية.",
+    "source": "Local",
+    "meta": {
+      "reason": "fallback"
+    }
+  }
+]
