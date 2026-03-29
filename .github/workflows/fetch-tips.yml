@@ -26,7 +26,10 @@ jobs:
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
-      - name: Debug show files and latest.json
+      - name: Commit and push results
         run: |
-          ls -la data/tips
-          cat data/tips/latest.json
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tips/*.json
+          git commit -m "Update health tips [skip ci]" || echo "No changes to commit"
+          git push
