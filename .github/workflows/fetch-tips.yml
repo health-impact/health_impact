@@ -26,6 +26,11 @@ jobs:
       - name: Run fetch_tips.py
         run: python fetch_tips.py
 
+      - name: Show latest.json content
+        run: |
+          echo "📄 محتوى ملف latest.json:"
+          cat data/tips/latest.json
+
       - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
