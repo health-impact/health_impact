@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 from collections import Counter
 
-# مصادر صحية موثوقة
 SOURCES = {
     "WHO": "https://www.who.int/feeds/entity/csr/don/en/rss.xml",
     "CDC": "https://tools.cdc.gov/api/v2/resources/media/403372.rss",
@@ -20,7 +19,6 @@ CATEGORIES = {
     "النظافة": ["hygiene", "clean", "sanitation"]
 }
 
-# قائمة fallback متنوعة
 FALLBACK_TIPS = [
     ("التغذية", "Fallback", "Eat more fruits and vegetables", "تناول المزيد من الفواكه والخضروات"),
     ("الصحة النفسية", "Fallback", "Take short breaks to relax", "خذ فترات راحة قصيرة للاسترخاء"),
@@ -43,7 +41,6 @@ def main():
     tips = []
     seen = set()
 
-    # جلب النصائح من المصادر
     for source_name, url in SOURCES.items():
         feed = feedparser.parse(url)
         for entry in feed.entries:
@@ -66,9 +63,8 @@ def main():
         if len(tips) >= 5:
             break
 
-    # لو ما وصلناش ٥ نصائح، نكمل من قائمة fallback
     if len(tips) < 5:
-        print("⚠️ لم يتم العثور على ٥ نصائح من المصادر، سيتم استخدام نصائح جاهزة (fallback).")
+        print("⚠️ سيتم استخدام نصائح جاهزة (fallback).")
     i = 0
     while len(tips) < 5 and i < len(FALLBACK_TIPS):
         cat, src, orig, cont = FALLBACK_TIPS[i]
@@ -82,7 +78,6 @@ def main():
         print(f"📝 نصيحة (fallback): {tip['original']} | التصنيف: {tip['category']} | المصدر: {tip['source']}")
         i += 1
 
-    # كتابة الملفات
     os.makedirs("data/tips", exist_ok=True)
     latest_path = "data/tips/latest.json"
     archive_path = f"data/tips/archive-{datetime.now().strftime('%Y-%m-%d')}.json"
@@ -96,15 +91,13 @@ def main():
     print(f"✅ كتبت {latest_path} وعدد النصائح {len(tips)}")
     print(f"✅ أرشفت في {archive_path}")
 
-    # ملخص التصنيفات
     cat_counts = Counter([tip["category"] for tip in tips])
     print("📊 عدد النصائح حسب التصنيف:")
     for cat, count in cat_counts.items():
         print(f"{cat}: {count}")
 
-    # ملخص المصادر
     sources_used = [tip["source"] for tip in tips]
-    print("📊 ملخص المصادر المستعملة:")
+    print("📊 ملخص المصادر:")
     for src in set(sources_used):
         count = sources_used.count(src)
         print(f"{src}: {count} نصيحة/نصائح")
