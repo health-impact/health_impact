@@ -196,8 +196,8 @@
     <script>
         async function fetchAwarenessData() {
             try {
-                // جلب ملف البيانات مع منع الكاش لضمان التحديث
-                const res = await fetch('athardata.json?v=' + new Date().getTime());
+                // أضف هذا السطر لضمان جلب أحدث نصائح بدون تخزين مؤقت (Cache)
+const res = await fetch('athardata.json?v=' + new Date().getTime());
                 const data = await res.json();
                 
                 const currentContainer = document.getElementById('current-tips-list');
