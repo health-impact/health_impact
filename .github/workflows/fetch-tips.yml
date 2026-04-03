@@ -29,12 +29,12 @@ jobs:
       - name: Show latest.json content
         run: |
           echo "📄 محتوى ملف latest.json:"
-          cat data/tips/latest.json
+          cat data/tips/latest.json || echo "⚠️ الملف غير موجود"
 
       - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/tips/*.json
-          git commit -m "Daily health tips update" || echo "No changes to commit"
+          git add data/tips/*.json || echo "⚠️ لا توجد ملفات لإضافتها"
+          git commit -m "Daily health tips update" || echo "⚠️ لا تغييرات للـ commit"
           git push
