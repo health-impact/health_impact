@@ -1,54 +1,32 @@
 import os
+import re
 import json
-import google.generativeai as genai
-from datetime import datetime
+from google.genai import Client
 
-# 1. إعداد الذكاء الاصطناعي
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+# Initialize the client with the GEMINI_API_KEY
+client = Client(api_key=os.getenv('GEMINI_API_KEY'))
 
-# NOTE:
-# 'gemini-pro' is no longer available in some environments. Prefer a current model.
-# We try a fast/cheap default first, then fallback.
-try:
-    model = genai.GenerativeModel('gemini-1.5-flash')
-except Exception:
-    model = genai.GenerativeModel('gemini-1.5-pro')
+def generate_content_with_gemini(prompt):
+    try:
+        # Call the model
+        response = client.models.generate_content(model_name='gemini-1.5-flash', prompt=prompt)
+        
+        # Parsing the response
+        raw_response = response.text
+        json_data = extract_json(raw_response)
+        return json_data
+    except Exception as e:
+        raise ValueError(f"Error during content generation: {e}. Raw response: {raw_response}")
 
-def get_new_tips():
-    prompt = """
-    أعطني 5 نصائح صحية قصيرة ومفيدة للمجتمع الليبي بناءً على توصيات (WHO, CDC, NCDC).
-    يجب أن يكون الرد بتنسيق JSON فقط كقائمة (List)، كل عنصر يحتوي على:
-    "title": عنوان النصيحة، "content": شرح مختصر، "type": (إما 'info' أو 'warning')، "source": المصدر.
-    تأكد من تنوع المجالات (تغذية، نشاط بدني، نظافة، صحة نفسية).
-    """
-    response = model.generate_content(prompt)
-    # تنظيف النص الناتج ليتحول لـ JSON
-    content = response.text.replace('```json', '').replace('```', '').strip()
-    return json.loads(content)
-
-def update_file():
-    file_path = 'athardata.json'
-
-    # تحميل الأرشيف الحالي
-    if os.path.exists(file_path):
-        with open(file_path, 'r', encoding='utf-8') as f:
-            old_data = json.load(f)
+def extract_json(raw_response):
+    # Remove JSON fences
+    json_without_fences = raw_response.replace('```json', '').replace('```', '').strip()
+    # Regex to find the first JSON array
+    match = re.search(r'\[.*?\]', json_without_fences)
+    if match:
+        return json.loads(match.group(0))
     else:
-        old_data = []
+        raise ValueError("No valid JSON array found in the response.")
 
-    # جلب النصائح الجديدة
-    new_tips = get_new_tips()
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    for tip in new_tips:
-        tip['date'] = today
-        # إضافة النصيحة في بداية القائمة (لتظهر كأحدث نصيحة)
-        if tip['title'] not in [t['title'] for t in old_data]:
-            old_data.insert(0, tip)
-
-    # حفظ الملف
-    with open(file_path, 'w', encoding='utf-8') as f:
-        json.dump(old_data, f, ensure_ascii=False, indent=2)
-
-if __name__ == "__main__":
-    update_file()
+# Example usage
+# content = generate_content_with_gemini('Some prompt string')
