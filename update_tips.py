@@ -5,7 +5,14 @@ from datetime import datetime
 
 # 1. إعداد الذكاء الاصطناعي
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel('gemini-pro')
+
+# NOTE:
+# 'gemini-pro' is no longer available in some environments. Prefer a current model.
+# We try a fast/cheap default first, then fallback.
+try:
+    model = genai.GenerativeModel('gemini-1.5-flash')
+except Exception:
+    model = genai.GenerativeModel('gemini-1.5-pro')
 
 def get_new_tips():
     prompt = """
@@ -21,7 +28,7 @@ def get_new_tips():
 
 def update_file():
     file_path = 'athardata.json'
-    
+
     # تحميل الأرشيف الحالي
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -32,7 +39,7 @@ def update_file():
     # جلب النصائح الجديدة
     new_tips = get_new_tips()
     today = datetime.now().strftime("%Y-%m-%d")
-    
+
     for tip in new_tips:
         tip['date'] = today
         # إضافة النصيحة في بداية القائمة (لتظهر كأحدث نصيحة)
