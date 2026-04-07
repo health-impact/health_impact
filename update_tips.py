@@ -7,9 +7,6 @@ from google import genai
 API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
-MODEL_PRIMARY = "gemini-1.5-flash"
-MODEL_FALLBACK = "gemini-1.5-pro"
-
 PROMPT = """
 أعطني 5 نصائح صحية قصيرة ومفيدة للمجتمع الليبي بناءً على توصيات (WHO, CDC, NCDC).
 يجب أن يكون الرد بتنسيق JSON فقط كقائمة (List)، كل عنصر يحتوي على:
@@ -23,16 +20,31 @@ def _extract_json_array(text: str):
         return json.loads(cleaned)
     except Exception:
         pass
-
     m = re.search(r"\[[\s\S]*\]", cleaned)
     if not m:
         raise ValueError(f"Response did not contain a JSON array:\n{cleaned}")
-
     return json.loads(m.group(0))
 
+def list_available_models():
+    print("Listing available models:")
+    try:
+        for m in client.models.list():
+            name = getattr(m, "name", None) or str(m)
+            print("MODEL:", name)
+    except Exception as e:
+        print("Failed to list models:", e)
+
 def get_new_tips():
+    # جرّبي كم اسم شائع، ولو فشلوا نطبع المتاح
+    candidates = [
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-1.0-pro",
+        "gemini-pro",
+    ]
+
     last_err = None
-    for model_name in (MODEL_PRIMARY, MODEL_FALLBACK):
+    for model_name in candidates:
         try:
             resp = client.models.generate_content(
                 model=model_name,
@@ -45,6 +57,9 @@ def get_new_tips():
             return tips
         except Exception as e:
             last_err = e
+
+    print("No candidate model worked. Will print available models now.")
+    list_available_models()
     raise RuntimeError(f"All model attempts failed. Last error: {last_err}")
 
 def update_file():
@@ -60,8 +75,8 @@ def update_file():
     today = datetime.now().strftime("%Y-%m-%d")
 
     existing_titles = {t.get("title") for t in old_data if isinstance(t, dict)}
-
     added = 0
+
     for tip in new_tips:
         if not isinstance(tip, dict):
             continue
