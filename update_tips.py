@@ -1,32 +1,81 @@
 import os
 import re
 import json
-from google.genai import Client
+from datetime import datetime
+from google import genai
 
-# Initialize the client with the GEMINI_API_KEY
-client = Client(api_key=os.getenv('GEMINI_API_KEY'))
+API_KEY = os.environ["GEMINI_API_KEY"]
+client = genai.Client(api_key=API_KEY)
 
-def generate_content_with_gemini(prompt):
+MODEL_PRIMARY = "gemini-1.5-flash"
+MODEL_FALLBACK = "gemini-1.5-pro"
+
+PROMPT = """
+أعطني 5 نصائح صحية قصيرة ومفيدة للمجتمع الليبي بناءً على توصيات (WHO, CDC, NCDC).
+يجب أن يكون الرد بتنسيق JSON فقط كقائمة (List)، كل عنصر يحتوي على:
+"title": عنوان النصيحة، "content": شرح مختصر، "type": (إما 'info' أو 'warning')، "source": المصدر.
+تأكد من تنوع المجالات (تغذية، نشاط بدني، نظافة، صحة نفسية).
+"""
+
+def _extract_json_array(text: str):
+    cleaned = text.replace("```json", "").replace("```", "").strip()
     try:
-        # Call the model
-        response = client.models.generate_content(model_name='gemini-1.5-flash', prompt=prompt)
-        
-        # Parsing the response
-        raw_response = response.text
-        json_data = extract_json(raw_response)
-        return json_data
-    except Exception as e:
-        raise ValueError(f"Error during content generation: {e}. Raw response: {raw_response}")
+        return json.loads(cleaned)
+    except Exception:
+        pass
 
-def extract_json(raw_response):
-    # Remove JSON fences
-    json_without_fences = raw_response.replace('```json', '').replace('```', '').strip()
-    # Regex to find the first JSON array
-    match = re.search(r'\[.*?\]', json_without_fences)
-    if match:
-        return json.loads(match.group(0))
+    m = re.search(r"\[[\s\S]*\]", cleaned)
+    if not m:
+        raise ValueError(f"Response did not contain a JSON array:\n{cleaned}")
+
+    return json.loads(m.group(0))
+
+def get_new_tips():
+    last_err = None
+    for model_name in (MODEL_PRIMARY, MODEL_FALLBACK):
+        try:
+            resp = client.models.generate_content(
+                model=model_name,
+                contents=PROMPT,
+            )
+            text = getattr(resp, "text", None) or str(resp)
+            tips = _extract_json_array(text)
+            if not isinstance(tips, list):
+                raise ValueError("Expected a JSON list.")
+            return tips
+        except Exception as e:
+            last_err = e
+    raise RuntimeError(f"All model attempts failed. Last error: {last_err}")
+
+def update_file():
+    file_path = "athardata.json"
+
+    if os.path.exists(file_path):
+        with open(file_path, "r", encoding="utf-8") as f:
+            old_data = json.load(f)
     else:
-        raise ValueError("No valid JSON array found in the response.")
+        old_data = []
 
-# Example usage
-# content = generate_content_with_gemini('Some prompt string')
+    new_tips = get_new_tips()
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    existing_titles = {t.get("title") for t in old_data if isinstance(t, dict)}
+
+    added = 0
+    for tip in new_tips:
+        if not isinstance(tip, dict):
+            continue
+        tip["date"] = today
+        title = tip.get("title")
+        if title and title not in existing_titles:
+            old_data.insert(0, tip)
+            existing_titles.add(title)
+            added += 1
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(old_data, f, ensure_ascii=False, indent=2)
+
+    print(f"Added {added} new tips for {today}")
+
+if __name__ == "__main__":
+    update_file()
