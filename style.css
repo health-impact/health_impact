@@ -1,0 +1,12 @@
+.share-container .btn {
+    transition: transform 0.3s ease;
+    font-weight: bold;
+}
+
+.share-container .btn:hover {
+    transform: translateY(-3px); /* حركة بسيطة عند التأشير */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.fa-whatsapp { margin-left: 5px; }
+.fa-facebook-f { margin-left: 5px; }
