@@ -139,7 +139,17 @@
                 <div id="current-tips-list">
                     <p class="text-center text-muted">جاري تحميل أحدث التحديثات العلمية...</p>
                 </div>
-                
+                <div class="share-container text-center my-4">
+    <p class="small text-muted mb-2">شارك الفائدة مع غيرك:</p>
+    <div class="d-flex justify-content-center gap-3">
+        <a id="whatsapp-share" href="#" class="btn btn-success btn-sm rounded-pill px-3">
+            <i class="fab fa-whatsapp"></i> واتساب
+        </a>
+        <a id="facebook-share" href="#" class="btn btn-primary btn-sm rounded-pill px-3">
+            <i class="fab fa-facebook-f"></i> فيسبوك
+        </a>
+    </div>
+</div>
                 <div id="archive-tips-list" style="display: none;"></div>
 
                 <div class="text-center mt-5">
@@ -208,7 +218,17 @@
             </div>
         </div>
     </footer>
+<script>
+    // الحصول على رابط الصفحة الحالية
+    const currentUrl = window.location.href;
+    const shareText = "إليك نصيحة طبية هامة من منصة أثر صحي: ";
 
+    // إعداد رابط الواتساب
+    document.getElementById('whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(shareText + currentUrl)}`;
+
+    // إعداد رابط الفيسبوك
+    document.getElementById('facebook-share').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+</script>
     <script>
         async function fetchAwarenessData() {
             try {
