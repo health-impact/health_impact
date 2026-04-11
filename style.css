@@ -10,3 +10,12 @@
 
 .fa-whatsapp { margin-left: 5px; }
 .fa-facebook-f { margin-left: 5px; }
+
+.card-footer-custom {
+    display: flex;
+    justify-content: space-between; /* هذا يخلي التاريخ في جهة والمصدر في جهة بانتظام */
+    align-items: center; /* يخلي النصين على نفس الخط الأفقي */
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
