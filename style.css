@@ -11,26 +11,10 @@
 .fa-whatsapp { margin-left: 5px; }
 .fa-facebook-f { margin-left: 5px; }
 
-/* تنسيق منطقة المصدر والتاريخ */
 .card-footer-custom {
-    display: flex;
-    flex-direction: column; /* يخليهم فوق بعض (المصدر فوق والتاريخ تحت) */
-    align-items: flex-end;  /* يخليهم الزوز في جهة اليمين */
-    gap: 5px;              /* مسافة بسيطة بين المصدر والتاريخ */
-    margin-top: 15px;
-    direction: rtl;        /* لضمان التنسيق العربي */
-}
-
-/* تنسيق التاريخ تحديداً */
-.card-footer-custom .date-text {
-    font-size: 0.8rem;
-    color: #6c757d;
-    display: block;        /* تأكيد أنه يأخذ سطر كامل */
-    margin-right: 5px;     /* إزاحة بسيطة ليتناسق مع الحافة */
-}
-
-/* تنسيق المصدر (التاج) */
-.card-footer-custom .source-badge {
-    display: inline-block;
-    /* أضف هنا باقي تنسيقات الـ badge اللي تحبها */
+    display: flex !important;
+    flex-direction: column !important; /* يخلي التاريخ تحت المصدر */
+    align-items: flex-end !important;  /* يخليهم في جهة اليمين */
+    gap: 5px !important;
+    text-align: right !important;
 }
