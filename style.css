@@ -11,15 +11,26 @@
 .fa-whatsapp { margin-left: 5px; }
 .fa-facebook-f { margin-left: 5px; }
 
-/* كود لتوحيد جهة التاريخ والمصدر */
-.card-meta-data {
-    display: block; /* خليهم في كتلة واحدة */
-    text-align: right; /* اتجاه اليمين */
-    direction: rtl; 
-    margin-top: 10px;
+/* تنسيق منطقة المصدر والتاريخ */
+.card-footer-custom {
+    display: flex;
+    flex-direction: column; /* يخليهم فوق بعض (المصدر فوق والتاريخ تحت) */
+    align-items: flex-end;  /* يخليهم الزوز في جهة اليمين */
+    gap: 5px;              /* مسافة بسيطة بين المصدر والتاريخ */
+    margin-top: 15px;
+    direction: rtl;        /* لضمان التنسيق العربي */
 }
 
-.card-meta-data span {
+/* تنسيق التاريخ تحديداً */
+.card-footer-custom .date-text {
+    font-size: 0.8rem;
+    color: #6c757d;
+    display: block;        /* تأكيد أنه يأخذ سطر كامل */
+    margin-right: 5px;     /* إزاحة بسيطة ليتناسق مع الحافة */
+}
+
+/* تنسيق المصدر (التاج) */
+.card-footer-custom .source-badge {
     display: inline-block;
-    vertical-align: middle;
+    /* أضف هنا باقي تنسيقات الـ badge اللي تحبها */
 }
