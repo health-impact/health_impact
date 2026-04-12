@@ -18,3 +18,18 @@
     gap: 5px !important;
     text-align: right !important;
 }
+/* كود لإظهار نوع النصيحة بلون مختلف */
+.category-tag {
+    color: #198754;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    display: block; /* يخليه في سطر بروحه فوق المصدر */
+}
+
+.card-footer-custom {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 2px !important; /* مسافة صغيرة جداً */
+}
