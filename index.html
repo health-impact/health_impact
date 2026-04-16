@@ -303,23 +303,6 @@ const res = await fetch('athardata.json?v=' + new Date().getTime());
         async src="//gc.zgo.at/count.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>  
-    // البحث عن الزر عن طريق الـ ID اللي عطيتهولي
-const fbBtn = document.getElementById('facebook-share');
-
-if (fbBtn) {
-    fbBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        // رابط الموقع الحالي
-        const urlToShare = window.location.href;
-        
-        // الرابط المخصص للمشاركة (يعمل على المتصفح والتطبيق)
-        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlToShare)}`;
-
-        // فتح نافذة المشاركة
-        window.open(facebookUrl, '_blank', 'width=600,height=400');
-    });
-}
    
 </body>
 </html>
