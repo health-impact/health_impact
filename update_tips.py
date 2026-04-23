@@ -23,14 +23,13 @@ PROMPT = """
 "عند توليد كل نصيحة، يجب أن تلتزم بذكر المصدر ونوع المعلومة يعني في اي قسم ف الصحة العامة الي اخترناهم نكل نصيحة تكون ف جانب  من جوانب الصحة العامة العشرة الي اخترناهم مع الحرص على عدم تكرار الصائح والتقليل من نصائح النشاط البدني 
 """
 
-def get_previous_tips(file_path, limit=20):
+def get_previous_tips(file_path, limit=30):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            # نأخذ العناوين فقط عشان نقارنوا بيها
-            return [item['title'] for item in data[-limit:]]
+            return [item['title'] for item in data[:limit] if isinstance(item, dict) and 'title' in item]
     except:
-        return 
+        return []
 def _extract_json_array(text: str):
     cleaned = text.replace("```json", "").replace("```", "").strip()
     try:
@@ -51,8 +50,16 @@ def list_available_models():
     except Exception as e:
         print("Failed to list models:", e)
 
-def get_new_tips():
+def get_new_tips(existing_titles=None):
     # جرّبي كم اسم شائع، ولو فشلوا نطبع المتاح
+
+    # بناء قسم النصائح السابقة لتجنب التكرار
+    avoid_section = ""
+    if existing_titles:
+        titles_list = "\n".join(f"- {t}" for t in existing_titles[:30])
+        avoid_section = f"\n\nتجنب تمامًا توليد أي نصيحة مشابهة للنصائح التالية الموجودة مسبقًا:\n{titles_list}\n"
+
+    prompt = PROMPT + avoid_section
 
 
     candidates = [
@@ -68,7 +75,7 @@ def get_new_tips():
         try:
             resp = client.models.generate_content(
                 model=model_name,
-                contents=PROMPT,
+                contents=prompt,
             )
             text = getattr(resp, "text", None) or str(resp)
             tips = _extract_json_array(text)
@@ -91,21 +98,33 @@ def update_file():
     else:
         old_data = []
 
-    new_tips = get_new_tips()
+    existing_titles = [t.get("title", "") for t in old_data if isinstance(t, dict)]
+    existing_titles_set = set(existing_titles)
+    existing_contents = {t.get("content", "").strip() for t in old_data if isinstance(t, dict)}
+
+    new_tips = get_new_tips(existing_titles=existing_titles)
     today = datetime.now().strftime("%Y-%m-%d")
 
-    existing_titles = {t.get("title") for t in old_data if isinstance(t, dict)}
     added = 0
 
     for tip in new_tips:
         if not isinstance(tip, dict):
             continue
         tip["date"] = today
-        title = tip.get("title")
-        if title and title not in existing_titles:
-            old_data.insert(0, tip)
-            existing_titles.add(title)
-            added += 1
+        title = tip.get("title", "").strip()
+        content = tip.get("content", "").strip()
+        if not title:
+            continue
+        if title in existing_titles_set:
+            print(f"Skipped duplicate title: {title}")
+            continue
+        if content and content in existing_contents:
+            print(f"Skipped duplicate content for: {title}")
+            continue
+        old_data.insert(0, tip)
+        existing_titles_set.add(title)
+        existing_contents.add(content)
+        added += 1
 
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(old_data, f, ensure_ascii=False, indent=2)
