@@ -7,21 +7,68 @@ from google import genai
 API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
-PROMPT = """
-أعطني 5 نصائح ومعلومات وارشادات صحية قصيرة ومفيدة كأنك خبير في جميع مجالات الصحة العامة أريدك أن تنوع في محتوى الكروت اليومية (5 كروت). لا تجعلها كلها نصائح مباشرة، بل وزعها كالتالي:
+# الأقسام الـ 11 المعتمدة مع الكلمات المفتاحية للتصنيف التلقائي
+CATEGORIES = {
+    "مكافحة العدوى": ["مكافحة العدوى", "العدوى", "تعقيم", "الجراثيم", "الميكروبات", "الفيروس", "البكتيريا", "التطهير"],
+    "صحة الأم والطفل": ["الأم", "الطفل", "الرضاعة", "الحمل", "الولادة", "الرضيع", "اليونيسف", "UNICEF"],
+    "الصحة المدرسية": ["مدرسية", "مدرسة", "الطلاب", "المدارس", "الأطفال في المدرسة"],
+    "سلامة الغذاء": ["سلامة الغذاء", "الأطعمة", "التسمم الغذائي", "الغذاء المحفوظ", "تاريخ الصلاحية"],
+    "الأمراض المزمنة": ["أمراض مزمنة", "السكري", "ضغط الدم", "أمراض القلب", "السمنة", "السرطان"],
+    "الصحة البيئية": ["بيئية", "البيئة", "تلوث الهواء", "مياه الشرب", "النفايات", "الصرف الصحي"],
+    "الصحة النفسية": ["نفسية", "نفسي", "القلق", "الاكتئاب", "الضغط النفسي", "السلوكية", "الصحة النفسية"],
+    "التغذية": ["التغذية", "تغذية", "الفيتامينات", "البروتين", "الكالسيوم", "النظام الغذائي"],
+    "النشاط البدني": ["نشاط بدني", "رياضة", "التمارين", "المشي", "ممارسة الرياضة"],
+    "التوعية الدوائية": ["دواء", "أدوية", "التوعية الدوائية", "المضادات الحيوية", "الجرعة", "الوصفة الطبية"],
+    "إدارة الطوارئ": ["طوارئ", "إسعاف", "الإسعافات الأولية", "الحوادث", "الكوارث", "الإنعاش"],
+}
 
-2 كروت: نصائح طبية مباشرة  (في جميع اقسام الصحة العامة ).
+PROMPT_TEMPLATE = """
+أعطني 5 نصائح ومعلومات وارشادات صحية قصيرة ومفيدة كأنك خبير في جميع مجالات الصحة العامة.
 
-1 كرت: فقرة 'صح أو خطأ' لتصحيح المفاهيم الشائعة (في جميع اقسام الصحة العامة ).
+**مهم جداً**: يجب أن تغطي النصائح الخمس هذه الأقسام تحديداً (قسم واحد على الأقل لكل نصيحة):
+{required_categories}
 
-1 كرت: 'تحدي اليوم' (Daily Challenge) يطلب من القارئ فعل شيء صحي بسيط.
+لا تتجاوز هذه الأقسام المطلوبة. لا تكتب عن صحة الأم والطفل أو مكافحة العدوى فقط.
 
-1 كرت: معلومة 'هل كنت تعلم في جميع اقسام الصحة العامة؟' علمية ومختصرة. للمجتمع الليبي بناءً على توصيات (WHO, CDC, NCDC, UNICEF,).
+وزّع الكروت الخمسة كالتالي من حيث الشكل:
+- 2 كروت: نصائح طبية مباشرة
+- 1 كرت: فقرة 'صح أو خطأ' لتصحيح مفهوم شائع
+- 1 كرت: 'تحدي اليوم' (Daily Challenge) يطلب من القارئ فعل شيء صحي بسيط
+- 1 كرت: معلومة 'هل كنت تعلم؟' علمية ومختصرة
+
 يجب أن يكون الرد بتنسيق JSON فقط كقائمة (List)، كل عنصر يحتوي على:
-"title": عنوان النصيحة، "content": شرح مختصر، "type": (إما 'info' أو 'warning')، "source": المصدر.
-تأكد من تنوع المجالات (تأكد من تنوع المجالات (تغذية، صحة بيئية، سلامة الغذاء، الصحة المهنية، صحة الأم و والطفل، الصحة السلوكية، التوعية الدوائية، الأمراض المزمنة، علم الأوبئة، الصحة المدرسية.  ادارة الطوارئ، الرقابة الصحية، مكافحة العدوى، نشاط بدني، نظافة، صحة نفسية).).
-"عند توليد كل نصيحة، يجب أن تلتزم بذكر المصدر ونوع المعلومة يعني في اي قسم ف الصحة العامة الي اخترناهم نكل نصيحة تكون ف جانب  من جوانب الصحة العامة العشرة الي اخترناهم مع الحرص على عدم تكرار الصائح والتقليل من نصائح النشاط البدني 
+"title": عنوان النصيحة،
+"content": شرح مختصر،
+"type": (إما 'info' أو 'warning')،
+"source": المصدر (من WHO, CDC, NCDC, UNICEF حسب الموضوع)،
+"category": اسم القسم الذي تنتمي إليه النصيحة (من الأقسام المحددة أعلاه فقط).
+
+للمجتمع الليبي. تجنب التكرار.
 """
+
+def classify_tip(tip: dict) -> str:
+    """Classify a tip into one of the 11 categories based on its content."""
+    text = (tip.get("title", "") + " " + tip.get("content", "") + " " + tip.get("source", "")).lower()
+    for cat, keywords in CATEGORIES.items():
+        if any(kw.lower() in text for kw in keywords):
+            return cat
+    return "عام"
+
+def get_category_counts(data: list) -> dict:
+    """Count how many tips exist per category."""
+    counts = {cat: 0 for cat in CATEGORIES}
+    for item in data:
+        if not isinstance(item, dict):
+            continue
+        cat = item.get("category") or classify_tip(item)
+        if cat in counts:
+            counts[cat] += 1
+    return counts
+
+def choose_required_categories(counts: dict, n: int = 5) -> list:
+    """Select the n least-represented categories to focus on next."""
+    sorted_cats = sorted(counts.items(), key=lambda x: x[1])
+    return [cat for cat, _ in sorted_cats[:n]]
 
 def get_previous_tips(file_path, limit=30):
     try:
@@ -30,6 +77,7 @@ def get_previous_tips(file_path, limit=30):
             return [item['title'] for item in data[:limit] if isinstance(item, dict) and 'title' in item]
     except:
         return []
+
 def _extract_json_array(text: str):
     cleaned = text.replace("```json", "").replace("```", "").strip()
     try:
@@ -50,16 +98,19 @@ def list_available_models():
     except Exception as e:
         print("Failed to list models:", e)
 
-def get_new_tips(existing_titles=None):
-    # جرّبي كم اسم شائع، ولو فشلوا نطبع المتاح
+def get_new_tips(existing_titles=None, required_categories=None):
+    # بناء قسم الأقسام المطلوبة
+    if required_categories:
+        cats_formatted = "\n".join(f"- {cat}" for cat in required_categories)
+    else:
+        cats_formatted = "\n".join(f"- {cat}" for cat in CATEGORIES)
+
+    prompt = PROMPT_TEMPLATE.format(required_categories=cats_formatted)
 
     # بناء قسم النصائح السابقة لتجنب التكرار
-    avoid_section = ""
     if existing_titles:
         titles_list = "\n".join(f"- {t}" for t in existing_titles[:30])
-        avoid_section = f"\n\nتجنب تمامًا توليد أي نصيحة مشابهة للنصائح التالية الموجودة مسبقًا:\n{titles_list}\n"
-
-    prompt = PROMPT + avoid_section
+        prompt += f"\n\nتجنب تمامًا توليد أي نصيحة مشابهة للنصائح التالية الموجودة مسبقًا:\n{titles_list}\n"
 
 
     candidates = [
@@ -102,7 +153,13 @@ def update_file():
     existing_titles_set = set(existing_titles)
     existing_contents = {t.get("content", "").strip() for t in old_data if isinstance(t, dict)}
 
-    new_tips = get_new_tips(existing_titles=existing_titles)
+    # حساب توزيع الأقسام الحالي واختيار الأقسام الأقل تمثيلاً
+    category_counts = get_category_counts(old_data)
+    required_categories = choose_required_categories(category_counts, n=5)
+    print(f"توزيع الأقسام الحالي: {category_counts}")
+    print(f"الأقسام المطلوبة لهذه الدورة: {required_categories}")
+
+    new_tips = get_new_tips(existing_titles=existing_titles, required_categories=required_categories)
     today = datetime.now().strftime("%Y-%m-%d")
 
     added = 0
@@ -111,6 +168,9 @@ def update_file():
         if not isinstance(tip, dict):
             continue
         tip["date"] = today
+        # إضافة حقل التصنيف إذا لم يوجد
+        if not tip.get("category"):
+            tip["category"] = classify_tip(tip)
         title = tip.get("title", "").strip()
         content = tip.get("content", "").strip()
         if not title:
