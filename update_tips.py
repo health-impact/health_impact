@@ -42,6 +42,7 @@ PROMPT_TEMPLATE = """
 يجب أن يكون الرد بتنسيق JSON فقط كقائمة (List)، كل عنصر يحتوي على:
 "title": عنوان النصيحة،
 "content": شرح مختصر،
+"notif_text"
 "type": (إما 'info' أو 'warning')،
 "source": المصدر (من WHO, CDC, NCDC, UNICEF حسب الموضوع)،
 "category": اسم القسم الذي تنتمي إليه النصيحة (من الأقسام المحددة أعلاه فقط).
