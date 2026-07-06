@@ -1433,7 +1433,11 @@
             const archiveItems = uniqueData.slice(5);
 
             currentItems.forEach(item => { if(currentContainer) currentContainer.innerHTML += buildTipCard(item); });
-            archiveItems.forEach(item => { if(archiveContainer) archiveContainer.innerHTML += buildTipCard(item); });
+
+            // بدل بناء كل عناصر الأرشيف دفعة واحدة عند كل زيارة (قد تصل لمئات العناصر مع الوقت)
+            // نحفظ القائمة فقط، ونعرضها تدريجياً (صفحة صفحة) عند فتح الأرشيف فعلياً
+            window.archiveTipsPool = archiveItems;
+            window.archiveTipsRendered = 0;
 
             window.siteAllTipsData = uniqueData; // متاحة للبحث الفوري وميزة المفضلة
 
@@ -1493,12 +1497,40 @@
             `;
         }
 
+        const ARCHIVE_PAGE_SIZE = 20;
+        function renderNextArchivePage() {
+            const arc = document.getElementById('archive-tips-list');
+            if (!arc || !window.archiveTipsPool) return;
+            const pool = window.archiveTipsPool;
+            const start = window.archiveTipsRendered || 0;
+            const nextBatch = pool.slice(start, start + ARCHIVE_PAGE_SIZE);
+            nextBatch.forEach(item => { arc.insertAdjacentHTML('beforeend', buildTipCard(item)); });
+            window.archiveTipsRendered = start + nextBatch.length;
+            markFavoriteButtons();
+
+            const loadMoreBtn = document.getElementById('archive-load-more-btn');
+            if (window.archiveTipsRendered >= pool.length) {
+                if (loadMoreBtn) loadMoreBtn.remove();
+            } else if (!loadMoreBtn) {
+                arc.insertAdjacentHTML('beforeend', `
+                    <div class="text-center my-3">
+                        <button type="button" id="archive-load-more-btn" class="btn btn-outline-success rounded-pill px-4" onclick="renderNextArchivePage()">
+                            <i class="fas fa-chevron-down me-1"></i> تحميل المزيد (${pool.length - window.archiveTipsRendered} متبقي)
+                        </button>
+                    </div>
+                `);
+            } else {
+                loadMoreBtn.innerHTML = `<i class="fas fa-chevron-down me-1"></i> تحميل المزيد (${pool.length - window.archiveTipsRendered} متبقي)`;
+            }
+        }
         function toggleArchive() {
             const arc = document.getElementById('archive-tips-list');
             const btn = document.getElementById('archive-btn');
             if (arc && arc.style.display === 'none') {
                 arc.style.display = 'block';
                 btn.innerText = 'إخفاء أرشيف المعلومات';
+                // عرض أول دفعة فقط عند أول فتح للأرشيف (تحميل تدريجي لتفادي بطء الصفحة)
+                if (!window.archiveTipsRendered) renderNextArchivePage();
                 arc.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else if(arc) {
                 arc.style.display = 'none';
